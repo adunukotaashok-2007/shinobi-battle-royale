@@ -12,9 +12,7 @@
 
 <body>
 
-    <!-- =========================
-         MAIN MENU
-         ========================= -->
+    <!-- MENU -->
 
     <div id="menu">
 
@@ -29,9 +27,7 @@
     </div>
 
 
-    <!-- =========================
-         GAME
-         ========================= -->
+    <!-- GAME -->
 
     <div id="game">
 
@@ -49,6 +45,11 @@
                 <span id="chakra">100</span>
             </div>
 
+            <div>
+                👹 ENEMIES:
+                <span id="enemy-count">3</span>
+            </div>
+
         </div>
 
 
@@ -56,20 +57,15 @@
 
         <div id="village">
 
-            <!-- Village Hall -->
+            <!-- VILLAGE HALL -->
 
             <div class="building village-hall">
-
                 🏯
-
-                <span>
-                    Village Hall
-                </span>
-
+                <span>Village Hall</span>
             </div>
 
 
-            <!-- Houses -->
+            <!-- HOUSES -->
 
             <div class="building house house1">
                 🏠
@@ -88,7 +84,7 @@
             </div>
 
 
-            <!-- Training Ground -->
+            <!-- TRAINING GROUND -->
 
             <div id="training-ground">
 
@@ -101,12 +97,12 @@
             </div>
 
 
-            <!-- River -->
+            <!-- RIVER -->
 
             <div id="river"></div>
 
 
-            <!-- Trees -->
+            <!-- TREES -->
 
             <div class="tree tree1">🌳</div>
             <div class="tree tree2">🌳</div>
@@ -116,32 +112,7 @@
             <div class="tree tree6">🌳</div>
 
 
-            <!-- =========================
-                 ENEMY
-                 ========================= -->
-
-            <div id="enemy">
-
-                <div id="enemy-health-bar">
-
-                    <div id="enemy-health-fill"></div>
-
-                </div>
-
-                <div id="enemy-character">
-                    👹
-                </div>
-
-                <div id="enemy-name">
-                    ENEMY
-                </div>
-
-            </div>
-
-
-            <!-- =========================
-                 PLAYER
-                 ========================= -->
+            <!-- PLAYER -->
 
             <div id="player">
 
@@ -150,6 +121,11 @@
                 </div>
 
             </div>
+
+
+            <!-- ENEMIES ARE CREATED BY JAVASCRIPT -->
+
+            <div id="enemies"></div>
 
         </div>
 
@@ -170,10 +146,12 @@
 
         <div id="game-over">
 
-            <h1>💀 DEFEATED</h1>
+            <h1 id="game-over-title">
+                💀 DEFEATED
+            </h1>
 
-            <p>
-                The enemy defeated your ninja.
+            <p id="game-over-text">
+                Your ninja has fallen.
             </p>
 
             <button onclick="restartGame()">
