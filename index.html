@@ -20,18 +20,57 @@
     </div>
 
     <div id="game">
-        <div id="hud">
-            ❤️ Health: <span id="health">100</span>
-            &nbsp;&nbsp;
-            🌀 Chakra: <span id="chakra">100</span>
+
+    <!-- HUD -->
+    <div id="hud">
+        ❤️ Health: <span id="health">100</span>
+        &nbsp;&nbsp;
+        🌀 Chakra: <span id="chakra">100</span>
+    </div>
+
+    <!-- VILLAGE MAP -->
+    <div id="village">
+
+        <!-- Village Hall -->
+        <div class="building village-hall">
+            🏯
+            <span>Village Hall</span>
         </div>
 
+        <!-- Houses -->
+        <div class="building house house1">🏠</div>
+        <div class="building house house2">🏠</div>
+        <div class="building house house3">🏠</div>
+        <div class="building house house4">🏠</div>
+
+        <!-- Training Ground -->
+        <div id="training-ground">
+            🎯
+            <span>Training Ground</span>
+        </div>
+
+        <!-- River -->
+        <div id="river"></div>
+
+        <!-- Trees -->
+        <div class="tree tree1">🌳</div>
+        <div class="tree tree2">🌳</div>
+        <div class="tree tree3">🌳</div>
+        <div class="tree tree4">🌳</div>
+        <div class="tree tree5">🌳</div>
+        <div class="tree tree6">🌳</div>
+
+        <!-- Player -->
         <div id="player">🥷</div>
 
-        <div id="message">
-            Use WASD or Arrow Keys to move
-        </div>
     </div>
+
+    <!-- Instructions -->
+    <div id="message">
+        WASD / Arrow Keys — Move your ninja
+    </div>
+
+</div>
 
     <script src="game.js"></script>
 
