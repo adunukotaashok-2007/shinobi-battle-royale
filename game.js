@@ -3,11 +3,17 @@
    ========================= */
 
 let player = {
-    x: window.innerWidth / 2,
+
+    x: window.innerWidth * 0.25,
+
     y: window.innerHeight / 2,
-    speed: 5,
+
+    speed: 6,
+
     health: 100,
+
     chakra: 100
+
 };
 
 
@@ -16,13 +22,27 @@ let player = {
    ========================= */
 
 let enemy = {
-    x: window.innerWidth * 0.70,
+
+    x: window.innerWidth * 0.75,
+
     y: window.innerHeight / 2,
+
     health: 100,
-    speed: 1.2,
-    attackRange: 70,
+
+    speed: 1.5,
+
+    attackRange: 75,
+
     attackCooldown: 0
+
 };
+
+
+/* =========================
+   GAME
+   ========================= */
+
+let gameRunning = false;
 
 
 /* =========================
@@ -35,7 +55,10 @@ const playerElement =
 const enemyElement =
     document.getElementById("enemy");
 
-const messageElement =
+const enemyCharacter =
+    document.getElementById("enemy-character");
+
+const message =
     document.getElementById("message");
 
 
@@ -51,9 +74,34 @@ function startGame() {
     document.getElementById("game").style.display =
         "block";
 
+    document.getElementById("game-over").style.display =
+        "none";
+
+
+    resetGame();
+
+
+    gameRunning = true;
+
+
+    message.innerHTML =
+        "WASD / Arrow Keys — Move<br>" +
+        "SPACE — Throw Kunai";
+
+
+    requestAnimationFrame(gameLoop);
+
+}
+
+
+/* =========================
+   RESET GAME
+   ========================= */
+
+function resetGame() {
 
     player.x =
-        window.innerWidth / 2;
+        window.innerWidth * 0.25;
 
     player.y =
         window.innerHeight / 2;
@@ -64,7 +112,7 @@ function startGame() {
 
 
     enemy.x =
-        window.innerWidth * 0.70;
+        window.innerWidth * 0.75;
 
     enemy.y =
         window.innerHeight / 2;
@@ -75,79 +123,92 @@ function startGame() {
 
 
     enemyElement.style.display =
-        "flex";
+        "block";
 
-
-    updateHealth();
-
-    updateEnemy();
 
     updatePlayer();
 
+    updateEnemy();
 
-    messageElement.innerHTML =
-        "WASD / Arrow Keys — Move<br>" +
-        "SPACE — Throw Kunai";
+    updateHUD();
 
-
-    requestAnimationFrame(
-        gameLoop
-    );
+    updateEnemyHealth();
 
 }
 
 
 /* =========================
-   PLAYER MOVEMENT
+   KEYBOARD
    ========================= */
 
 document.addEventListener(
     "keydown",
     function(event) {
 
+        if (!gameRunning) {
+
+            return;
+
+        }
+
+
         const key =
             event.key.toLowerCase();
 
+
+        /* UP */
 
         if (
             key === "w" ||
             key === "arrowup"
         ) {
 
-            player.y -= player.speed;
+            player.y -=
+                player.speed;
 
         }
 
+
+        /* DOWN */
 
         if (
             key === "s" ||
             key === "arrowdown"
         ) {
 
-            player.y += player.speed;
+            player.y +=
+                player.speed;
 
         }
 
+
+        /* LEFT */
 
         if (
             key === "a" ||
             key === "arrowleft"
         ) {
 
-            player.x -= player.speed;
+            player.x -=
+                player.speed;
 
         }
 
+
+        /* RIGHT */
 
         if (
             key === "d" ||
             key === "arrowright"
         ) {
 
-            player.x += player.speed;
+            player.x +=
+                player.speed;
 
         }
 
+
+        /* ATTACK */
 
         if (
             event.code === "Space"
@@ -175,18 +236,18 @@ document.addEventListener(
 function keepPlayerInsideMap() {
 
     player.x = Math.max(
-        30,
+        40,
         Math.min(
-            window.innerWidth - 120,
+            window.innerWidth - 130,
             player.x
         )
     );
 
 
     player.y = Math.max(
-        80,
+        90,
         Math.min(
-            window.innerHeight - 40,
+            window.innerHeight - 60,
             player.y
         )
     );
@@ -250,7 +311,10 @@ function getDistance() {
 
 function enemyAI() {
 
-    if (enemy.health <= 0) {
+    if (
+        enemy.health <= 0 ||
+        player.health <= 0
+    ) {
 
         return;
 
@@ -271,7 +335,9 @@ function enemyAI() {
         );
 
 
-    /* Follow player */
+    /* =========================
+       CHASE PLAYER
+       ========================= */
 
     if (
         distance > enemy.attackRange
@@ -288,16 +354,24 @@ function enemyAI() {
     }
 
 
-    /* Attack player */
+    /* =========================
+       ATTACK PLAYER
+       ========================= */
 
     if (
-        distance <= enemy.attackRange &&
-        enemy.attackCooldown <= 0
+        distance <= enemy.attackRange
     ) {
 
-        damagePlayer();
+        if (
+            enemy.attackCooldown <= 0
+        ) {
 
-        enemy.attackCooldown = 60;
+            enemyAttack();
+
+            enemy.attackCooldown =
+                60;
+
+        }
 
     }
 
@@ -320,22 +394,43 @@ function enemyAI() {
    ENEMY ATTACK
    ========================= */
 
-function damagePlayer() {
+function enemyAttack() {
 
     const damage = 10;
 
-    player.health -= damage;
+
+    player.health -=
+        damage;
 
 
-    if (player.health < 0) {
+    if (
+        player.health < 0
+    ) {
 
         player.health = 0;
 
     }
 
 
-    updateHealth();
+    updateHUD();
 
+
+    /* Attack animation */
+
+    enemyCharacter.classList.remove(
+        "enemy-attacking"
+    );
+
+
+    void enemyCharacter.offsetWidth;
+
+
+    enemyCharacter.classList.add(
+        "enemy-attacking"
+    );
+
+
+    /* Player hit */
 
     playerElement.classList.remove(
         "player-hit"
@@ -350,7 +445,15 @@ function damagePlayer() {
     );
 
 
-    if (player.health <= 0) {
+    message.innerHTML =
+        "⚔️ ENEMY ATTACKED YOU!";
+
+
+    /* Game over */
+
+    if (
+        player.health <= 0
+    ) {
 
         playerDefeated();
 
@@ -360,26 +463,33 @@ function damagePlayer() {
 
 
 /* =========================
-   HEALTH
+   UPDATE HUD
    ========================= */
 
-function updateHealth() {
+function updateHUD() {
 
     document.getElementById(
         "health"
     ).textContent =
         player.health;
 
+
+    document.getElementById(
+        "chakra"
+    ).textContent =
+        player.chakra;
+
 }
 
 
 /* =========================
-   PLAYER ATTACK
+   ATTACK ENEMY
    ========================= */
 
 function attackEnemy() {
 
     if (
+        !gameRunning ||
         enemy.health <= 0 ||
         player.health <= 0
     ) {
@@ -403,16 +513,18 @@ function attackEnemy() {
         );
 
 
-    const attackRange = 350;
+    const attackRange =
+        400;
 
+
+    /* Too far */
 
     if (
         distance > attackRange
     ) {
 
-        messageElement.innerHTML =
-            "❌ Enemy is too far away!<br>" +
-            "Move closer.";
+        message.innerHTML =
+            "❌ Too far away! Move closer.";
 
         return;
 
@@ -424,8 +536,10 @@ function attackEnemy() {
     const kunai =
         document.createElement("div");
 
+
     kunai.className =
         "kunai";
+
 
     kunai.textContent =
         "🗡️";
@@ -451,15 +565,39 @@ function attackEnemy() {
 
 
     const velocityX =
-        (dx / length) * 12;
+        (dx / length) * 15;
 
     const velocityY =
-        (dy / length) * 12;
+        (dy / length) * 15;
 
+
+    kunai.style.left =
+        kunaiX + "px";
+
+    kunai.style.top =
+        kunaiY + "px";
+
+
+    /* Projectile */
 
     const projectile =
         setInterval(
             function() {
+
+                if (
+                    enemy.health <= 0
+                ) {
+
+                    clearInterval(
+                        projectile
+                    );
+
+                    kunai.remove();
+
+                    return;
+
+                }
+
 
                 kunaiX +=
                     velocityX;
@@ -474,6 +612,8 @@ function attackEnemy() {
                 kunai.style.top =
                     kunaiY + "px";
 
+
+                /* Collision */
 
                 const hitX =
                     enemy.x - kunaiX;
@@ -490,7 +630,7 @@ function attackEnemy() {
 
 
                 if (
-                    hitDistance < 45
+                    hitDistance < 50
                 ) {
 
                     clearInterval(
@@ -503,6 +643,8 @@ function attackEnemy() {
 
                 }
 
+
+                /* Outside screen */
 
                 if (
                     kunaiX < 0 ||
@@ -534,16 +676,8 @@ function attackEnemy() {
 
 function damageEnemy() {
 
-    if (
-        enemy.health <= 0
-    ) {
-
-        return;
-
-    }
-
-
-    enemy.health -= 20;
+    enemy.health -=
+        20;
 
 
     if (
@@ -555,11 +689,10 @@ function damageEnemy() {
     }
 
 
-    document.getElementById(
-        "enemy-health-value"
-    ).textContent =
-        enemy.health;
+    updateEnemyHealth();
 
+
+    /* Hit effect */
 
     enemyElement.classList.remove(
         "enemy-hit"
@@ -574,17 +707,18 @@ function damageEnemy() {
     );
 
 
+    message.innerHTML =
+        "💥 HIT! Enemy HP: " +
+        enemy.health;
+
+
+    /* Defeat */
+
     if (
         enemy.health <= 0
     ) {
 
-        enemyElement.style.display =
-            "none";
-
-
-        messageElement.innerHTML =
-            "🔥 ENEMY DEFEATED!<br>" +
-            "Press R to respawn.";
+        enemyDefeated();
 
     }
 
@@ -592,65 +726,39 @@ function damageEnemy() {
 
 
 /* =========================
-   RESPAWN ENEMY
+   ENEMY HEALTH
    ========================= */
 
-document.addEventListener(
-    "keydown",
-    function(event) {
+function updateEnemyHealth() {
 
-        if (
-            event.key.toLowerCase() === "r"
-        ) {
-
-            respawnEnemy();
-
-        }
-
-    }
-);
-
-
-function respawnEnemy() {
-
-    if (
-        player.health <= 0
-    ) {
-
-        restartGame();
-
-        return;
-
-    }
-
-
-    enemy.health = 100;
-
-    enemy.x =
-        window.innerWidth * 0.70;
-
-    enemy.y =
-        window.innerHeight / 2;
-
-    enemy.attackCooldown = 0;
-
-
-    enemyElement.style.display =
-        "flex";
+    const percentage =
+        enemy.health + "%";
 
 
     document.getElementById(
-        "enemy-health-value"
-    ).textContent =
-        enemy.health;
+        "enemy-health-fill"
+    ).style.width =
+        percentage;
+
+}
 
 
-    updateEnemy();
+/* =========================
+   ENEMY DEFEATED
+   ========================= */
+
+function enemyDefeated() {
+
+    enemy.health = 0;
 
 
-    messageElement.innerHTML =
-        "WASD / Arrow Keys — Move<br>" +
-        "SPACE — Throw Kunai";
+    enemyElement.style.display =
+        "none";
+
+
+    message.innerHTML =
+        "🔥 ENEMY DEFEATED!<br>" +
+        "Press R to fight again.";
 
 }
 
@@ -661,14 +769,85 @@ function respawnEnemy() {
 
 function playerDefeated() {
 
-    player.health = 0;
-
-    updateHealth();
+    gameRunning = false;
 
 
-    messageElement.innerHTML =
-        "💀 YOU WERE DEFEATED!<br>" +
-        "Press R to restart.";
+    document.getElementById(
+        "game-over"
+    ).style.display =
+        "block";
+
+
+    message.innerHTML =
+        "💀 Your ninja has fallen.";
+
+}
+
+
+/* =========================
+   R KEY
+   ========================= */
+
+document.addEventListener(
+    "keydown",
+    function(event) {
+
+        if (
+            event.key.toLowerCase() === "r"
+        ) {
+
+            if (
+                document.getElementById(
+                    "game-over"
+                ).style.display === "block"
+            ) {
+
+                restartGame();
+
+            }
+            else {
+
+                resetEnemy();
+
+            }
+
+        }
+
+    }
+);
+
+
+/* =========================
+   RESET ENEMY
+   ========================= */
+
+function resetEnemy() {
+
+    enemy.health = 100;
+
+
+    enemy.x =
+        window.innerWidth * 0.75;
+
+    enemy.y =
+        window.innerHeight / 2;
+
+
+    enemy.attackCooldown = 0;
+
+
+    enemyElement.style.display =
+        "block";
+
+
+    updateEnemy();
+
+    updateEnemyHealth();
+
+
+    message.innerHTML =
+        "WASD / Arrow Keys — Move<br>" +
+        "SPACE — Attack";
 
 }
 
@@ -679,47 +858,26 @@ function playerDefeated() {
 
 function restartGame() {
 
-    player.health = 100;
-
-    player.chakra = 100;
-
-
-    player.x =
-        window.innerWidth / 2;
-
-    player.y =
-        window.innerHeight / 2;
-
-
-    enemy.health = 100;
-
-    enemy.x =
-        window.innerWidth * 0.70;
-
-    enemy.y =
-        window.innerHeight / 2;
-
-
-    enemyElement.style.display =
-        "flex";
-
-
     document.getElementById(
-        "enemy-health-value"
-    ).textContent =
-        100;
+        "game-over"
+    ).style.display =
+        "none";
 
 
-    updateHealth();
-
-    updatePlayer();
-
-    updateEnemy();
+    resetGame();
 
 
-    messageElement.innerHTML =
+    gameRunning = true;
+
+
+    message.innerHTML =
         "WASD / Arrow Keys — Move<br>" +
-        "SPACE — Throw Kunai";
+        "SPACE — Attack";
+
+
+    requestAnimationFrame(
+        gameLoop
+    );
 
 }
 
@@ -731,29 +889,36 @@ function restartGame() {
 function gameLoop() {
 
     if (
-        player.health > 0 &&
-        enemy.health > 0
+        gameRunning
     ) {
 
         enemyAI();
 
+        requestAnimationFrame(
+            gameLoop
+        );
+
     }
-
-
-    requestAnimationFrame(
-        gameLoop
-    );
 
 }
 
 
 /* =========================
-   RESIZE
+   WINDOW RESIZE
    ========================= */
 
 window.addEventListener(
     "resize",
     function() {
+
+        if (
+            !gameRunning
+        ) {
+
+            return;
+
+        }
+
 
         keepPlayerInsideMap();
 
