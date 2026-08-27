@@ -1,174 +1,262 @@
+/* =========================
+   BASIC
+   ========================= */
+
 * {
     box-sizing: border-box;
 }
 
 body {
+
     margin: 0;
+
     font-family: Arial, sans-serif;
+
     background: #111;
+
     color: white;
+
     overflow: hidden;
+
 }
 
 
-/* MENU */
+/* =========================
+   MENU
+   ========================= */
 
 #menu {
+
+    width: 100vw;
+
     height: 100vh;
 
     display: flex;
+
     flex-direction: column;
 
     justify-content: center;
+
     align-items: center;
 
-    background: linear-gradient(
-        #182848,
-        #4b6cb7
-    );
-
     text-align: center;
+
+    background:
+        linear-gradient(
+            135deg,
+            #10182f,
+            #283d73,
+            #8b2c2c
+        );
+
 }
 
 #menu h1 {
-    font-size: 38px;
+
+    font-size: 40px;
+
+    margin-bottom: 10px;
+
 }
 
 #menu p {
+
     font-size: 20px;
+
+    margin-bottom: 30px;
+
 }
 
+
+/* =========================
+   BUTTON
+   ========================= */
+
 button {
-    padding: 15px 35px;
+
+    padding: 15px 40px;
 
     border: none;
+
     border-radius: 10px;
 
-    background: #ff7b00;
+    background: #ff7300;
+
     color: white;
 
     font-size: 20px;
 
+    font-weight: bold;
+
     cursor: pointer;
+
 }
 
 button:hover {
-    background: #ff9900;
+
+    background: #ff9800;
+
+    transform: scale(1.05);
+
 }
 
 
-/* GAME */
+/* =========================
+   GAME
+   ========================= */
 
 #game {
+
     display: none;
 
     position: relative;
 
     width: 100vw;
+
     height: 100vh;
 
     overflow: hidden;
 
-    background: #69a84f;
+    background: #65a84d;
+
 }
 
 
-/* VILLAGE */
+/* =========================
+   VILLAGE
+   ========================= */
 
 #village {
+
     position: absolute;
 
     left: 0;
+
     top: 0;
 
     width: 100%;
+
     height: 100%;
 
     overflow: hidden;
 
-    background: #69a84f;
+    background:
+
+        linear-gradient(
+            rgba(80, 150, 60, 0.3),
+            rgba(30, 100, 40, 0.3)
+        ),
+
+        #65a84d;
+
 }
 
 
-/* ROADS */
+/* =========================
+   ROAD
+   ========================= */
 
 #village::before {
+
     content: "";
 
     position: absolute;
 
     left: 0;
+
     top: 45%;
 
     width: 100%;
-    height: 100px;
 
-    background: #b98b5c;
+    height: 110px;
+
+    background: #b88b5c;
 
     z-index: 1;
+
 }
 
 #village::after {
+
     content: "";
 
     position: absolute;
 
     left: 45%;
+
     top: 0;
 
-    width: 100px;
+    width: 110px;
+
     height: 100%;
 
-    background: #b98b5c;
+    background: #b88b5c;
 
     z-index: 1;
+
 }
 
 
-/* HUD */
+/* =========================
+   HUD
+   ========================= */
 
 #hud {
+
     position: absolute;
 
     top: 15px;
+
     left: 15px;
 
-    padding: 12px 18px;
+    padding: 12px 20px;
 
-    background: rgba(0, 0, 0, 0.8);
+    background:
+        rgba(0, 0, 0, 0.8);
 
     border-radius: 10px;
 
-    z-index: 100;
+    line-height: 1.8;
+
+    font-size: 17px;
+
+    z-index: 200;
+
 }
 
 
-/* BUILDINGS */
+/* =========================
+   BUILDINGS
+   ========================= */
 
 .building {
+
     position: absolute;
 
     display: flex;
 
     justify-content: center;
+
     align-items: center;
 
     background: #c77b45;
 
-    border: 5px solid #703d20;
+    border: 5px solid #6b3c20;
 
     border-radius: 12px;
 
     box-shadow:
-        0 6px 10px
-        rgba(0, 0, 0, 0.35);
+        0 6px 12px
+        rgba(0, 0, 0, 0.4);
 
     font-size: 45px;
 
     z-index: 10;
+
 }
 
 .building span {
+
     position: absolute;
 
     bottom: -25px;
@@ -176,244 +264,509 @@ button:hover {
     font-size: 13px;
 
     white-space: nowrap;
+
 }
 
 
-/* VILLAGE HALL */
+/* =========================
+   VILLAGE HALL
+   ========================= */
 
 .village-hall {
+
     width: 180px;
+
     height: 120px;
 
     left: 50%;
-    top: 12%;
+
+    top: 10%;
 
     transform:
         translateX(-50%);
+
 }
 
 
-/* HOUSES */
+/* =========================
+   HOUSES
+   ========================= */
 
 .house {
+
     width: 100px;
+
     height: 75px;
+
 }
 
 .house1 {
-    left: 10%;
-    top: 20%;
+
+    left: 8%;
+
+    top: 18%;
+
 }
 
 .house2 {
-    right: 12%;
-    top: 20%;
+
+    right: 14%;
+
+    top: 18%;
+
 }
 
 .house3 {
-    left: 10%;
+
+    left: 8%;
+
     bottom: 18%;
+
 }
 
 .house4 {
-    right: 12%;
+
+    right: 14%;
+
     bottom: 18%;
+
 }
 
 
-/* TRAINING */
+/* =========================
+   TRAINING GROUND
+   ========================= */
 
 #training-ground {
+
     position: absolute;
 
     left: 50%;
-    bottom: 10%;
+
+    bottom: 8%;
 
     transform:
         translateX(-50%);
 
     width: 220px;
+
     height: 120px;
 
     border:
-        6px dashed #d8c47a;
+        6px dashed #e0cc76;
 
     border-radius: 50%;
 
     background:
-        rgba(80, 70, 40, 0.3);
+        rgba(50, 50, 30, 0.25);
 
     display: flex;
 
     justify-content: center;
+
     align-items: center;
 
     font-size: 45px;
 
     z-index: 5;
+
 }
 
 #training-ground span {
+
     position: absolute;
 
     bottom: -30px;
 
     font-size: 14px;
+
 }
 
 
-/* RIVER */
+/* =========================
+   RIVER
+   ========================= */
 
 #river {
+
     position: absolute;
 
     right: 0;
+
     top: 0;
 
-    width: 80px;
+    width: 75px;
+
     height: 100%;
 
-    background: #3194d0;
+    background: #2994d0;
 
     border-left:
-        5px solid #2475a8;
+        5px solid #216f9c;
 
     z-index: 3;
+
 }
 
 
-/* TREES */
+/* =========================
+   TREES
+   ========================= */
 
 .tree {
+
     position: absolute;
 
     font-size: 45px;
 
     z-index: 20;
+
 }
 
 .tree1 {
-    left: 3%;
+
+    left: 2%;
+
     top: 5%;
+
 }
 
 .tree2 {
-    left: 3%;
+
+    left: 2%;
+
     bottom: 5%;
+
 }
 
 .tree3 {
-    right: 15%;
+
+    right: 16%;
+
     top: 5%;
+
 }
 
 .tree4 {
-    right: 15%;
+
+    right: 16%;
+
     bottom: 5%;
+
 }
 
 .tree5 {
-    left: 30%;
-    top: 4%;
+
+    left: 28%;
+
+    top: 3%;
+
 }
 
 .tree6 {
-    left: 30%;
-    bottom: 4%;
+
+    left: 28%;
+
+    bottom: 3%;
+
 }
 
 
-/* PLAYER */
+/* =========================
+   PLAYER
+   ========================= */
 
 #player {
+
     position: absolute;
 
-    left: 50%;
-    top: 50%;
+    left: 25%;
 
-    font-size: 50px;
-
-    transform:
-        translate(-50%, -50%);
-
-    z-index: 60;
-
-    user-select: none;
-}
-
-
-/* ENEMY */
-
-#enemy {
-    position: absolute;
-
-    left: 70%;
     top: 50%;
 
     width: 70px;
+
     height: 70px;
-
-    display: flex;
-
-    justify-content: center;
-    align-items: center;
-
-    font-size: 50px;
 
     transform:
         translate(-50%, -50%);
 
-    z-index: 60;
+    z-index: 100;
 
-    user-select: none;
 }
 
+#player-character {
 
-/* ENEMY HEALTH */
-
-#enemy-health {
-    position: absolute;
-
-    top: -30px;
-    left: 50%;
-
-    transform:
-        translateX(-50%);
-
-    width: 80px;
-
-    padding: 4px;
-
-    background: #111;
-
-    color: white;
-
-    border-radius: 5px;
+    font-size: 55px;
 
     text-align: center;
 
-    font-size: 12px;
+    user-select: none;
 
-    white-space: nowrap;
 }
 
 
-/* KUNAI */
+/* =========================
+   ENEMY
+   ========================= */
+
+#enemy {
+
+    position: absolute;
+
+    left: 75%;
+
+    top: 50%;
+
+    width: 90px;
+
+    height: 100px;
+
+    transform:
+        translate(-50%, -50%);
+
+    z-index: 100;
+
+    text-align: center;
+
+}
+
+
+/* ENEMY CHARACTER */
+
+#enemy-character {
+
+    font-size: 55px;
+
+    user-select: none;
+
+}
+
+
+/* ENEMY NAME */
+
+#enemy-name {
+
+    font-size: 12px;
+
+    font-weight: bold;
+
+    color: #ff4444;
+
+    margin-top: -5px;
+
+}
+
+
+/* =========================
+   ENEMY HEALTH BAR
+   ========================= */
+
+#enemy-health-bar {
+
+    width: 80px;
+
+    height: 10px;
+
+    background: #222;
+
+    border: 2px solid white;
+
+    border-radius: 5px;
+
+    margin: auto;
+
+    overflow: hidden;
+
+}
+
+#enemy-health-fill {
+
+    width: 100%;
+
+    height: 100%;
+
+    background: #ff2222;
+
+    transition:
+        width 0.2s;
+
+}
+
+
+/* =========================
+   ENEMY CHASING EFFECT
+   ========================= */
+
+#enemy-character {
+
+    animation:
+        enemyIdle 0.5s infinite alternate;
+
+}
+
+@keyframes enemyIdle {
+
+    from {
+
+        transform:
+            translateY(0);
+
+    }
+
+    to {
+
+        transform:
+            translateY(-5px);
+
+    }
+
+}
+
+
+/* =========================
+   ENEMY ATTACK EFFECT
+   ========================= */
+
+.enemy-attacking {
+
+    animation:
+        enemyAttack 0.25s;
+
+}
+
+@keyframes enemyAttack {
+
+    0% {
+
+        transform:
+            scale(1);
+
+    }
+
+    50% {
+
+        transform:
+            scale(1.5);
+
+        filter:
+            brightness(2);
+
+    }
+
+    100% {
+
+        transform:
+            scale(1);
+
+    }
+
+}
+
+
+/* =========================
+   PLAYER HIT
+   ========================= */
+
+.player-hit {
+
+    animation:
+        playerHit 0.25s;
+
+}
+
+@keyframes playerHit {
+
+    0% {
+
+        filter:
+            brightness(1);
+
+    }
+
+    50% {
+
+        filter:
+            brightness(3);
+
+    }
+
+    100% {
+
+        filter:
+            brightness(1);
+
+    }
+
+}
+
+
+/* =========================
+   ENEMY HIT
+   ========================= */
+
+.enemy-hit {
+
+    animation:
+        enemyHit 0.2s;
+
+}
+
+@keyframes enemyHit {
+
+    0% {
+
+        transform:
+            translate(-50%, -50%)
+            scale(1);
+
+    }
+
+    50% {
+
+        transform:
+            translate(-50%, -50%)
+            scale(1.5);
+
+        filter:
+            brightness(2);
+
+    }
+
+    100% {
+
+        transform:
+            translate(-50%, -50%)
+            scale(1);
+
+    }
+
+}
+
+
+/* =========================
+   KUNAI
+   ========================= */
 
 .kunai {
+
     position: absolute;
 
     font-size: 28px;
 
-    z-index: 80;
+    z-index: 150;
 
     pointer-events: none;
+
 }
 
 
-/* MESSAGE */
+/* =========================
+   MESSAGE
+   ========================= */
 
 #message {
+
     position: absolute;
 
     bottom: 15px;
@@ -422,63 +775,62 @@ button:hover {
 
     text-align: center;
 
-    color: white;
-
     font-size: 16px;
 
     line-height: 1.6;
 
-    z-index: 100;
+    z-index: 200;
+
 }
 
 
-/* HIT EFFECT */
+/* =========================
+   GAME OVER
+   ========================= */
 
-.enemy-hit {
-    animation:
-        enemyHit 0.15s;
+#game-over {
+
+    display: none;
+
+    position: absolute;
+
+    left: 50%;
+
+    top: 50%;
+
+    transform:
+        translate(-50%, -50%);
+
+    width: 350px;
+
+    padding: 35px;
+
+    background:
+        rgba(0, 0, 0, 0.92);
+
+    border:
+        2px solid #ff3333;
+
+    border-radius: 15px;
+
+    text-align: center;
+
+    z-index: 500;
+
 }
 
-@keyframes enemyHit {
+#game-over h1 {
 
-    0% {
-        transform:
-            translate(-50%, -50%)
-            scale(1);
-    }
+    color: #ff3333;
 
-    50% {
-        transform:
-            translate(-50%, -50%)
-            scale(1.4);
-    }
+    font-size: 40px;
 
-    100% {
-        transform:
-            translate(-50%, -50%)
-            scale(1);
-    }
 }
 
+#game-over p {
 
-/* PLAYER DAMAGE */
+    font-size: 18px;
 
-.player-hit {
-    animation:
-        playerHit 0.2s;
-}
+    margin-bottom: 25px;
 
-@keyframes playerHit {
-
-    0% {
-        filter: brightness(1);
-    }
-
-    50% {
-        filter: brightness(3);
-    }
-
-    100% {
-        filter: brightness(1);
-    }
 }
