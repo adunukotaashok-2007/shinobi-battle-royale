@@ -4,7 +4,7 @@
 
 let player = {
 
-    x: window.innerWidth * 0.25,
+    x: window.innerWidth / 2,
 
     y: window.innerHeight / 2,
 
@@ -18,28 +18,46 @@ let player = {
 
 
 /* =========================
-   ENEMY
+   ENEMIES
    ========================= */
 
-let enemy = {
+let enemies = [
 
-    x: window.innerWidth * 0.75,
+    {
+        id: 1,
+        x: window.innerWidth * 0.15,
+        y: window.innerHeight * 0.25,
+        health: 100,
+        speed: 1.2,
+        attackCooldown: 0,
+        emoji: "👹"
+    },
 
-    y: window.innerHeight / 2,
+    {
+        id: 2,
+        x: window.innerWidth * 0.80,
+        y: window.innerHeight * 0.25,
+        health: 100,
+        speed: 1.5,
+        attackCooldown: 0,
+        emoji: "👺"
+    },
 
-    health: 100,
+    {
+        id: 3,
+        x: window.innerWidth * 0.75,
+        y: window.innerHeight * 0.75,
+        health: 100,
+        speed: 1.0,
+        attackCooldown: 0,
+        emoji: "👿"
+    }
 
-    speed: 1.5,
-
-    attackRange: 75,
-
-    attackCooldown: 0
-
-};
+];
 
 
 /* =========================
-   GAME
+   GAME STATE
    ========================= */
 
 let gameRunning = false;
@@ -52,13 +70,10 @@ let gameRunning = false;
 const playerElement =
     document.getElementById("player");
 
-const enemyElement =
-    document.getElementById("enemy");
+const enemiesContainer =
+    document.getElementById("enemies");
 
-const enemyCharacter =
-    document.getElementById("enemy-character");
-
-const message =
+const messageElement =
     document.getElementById("message");
 
 
@@ -84,9 +99,12 @@ function startGame() {
     gameRunning = true;
 
 
-    message.innerHTML =
+    messageElement.innerHTML =
         "WASD / Arrow Keys — Move<br>" +
         "SPACE — Throw Kunai";
+
+
+    createEnemies();
 
 
     requestAnimationFrame(gameLoop);
@@ -101,7 +119,7 @@ function startGame() {
 function resetGame() {
 
     player.x =
-        window.innerWidth * 0.25;
+        window.innerWidth / 2;
 
     player.y =
         window.innerHeight / 2;
@@ -111,28 +129,152 @@ function resetGame() {
     player.chakra = 100;
 
 
-    enemy.x =
-        window.innerWidth * 0.75;
+    enemies = [
 
-    enemy.y =
-        window.innerHeight / 2;
+        {
+            id: 1,
+            x: window.innerWidth * 0.15,
+            y: window.innerHeight * 0.25,
+            health: 100,
+            speed: 1.2,
+            attackCooldown: 0,
+            emoji: "👹"
+        },
 
-    enemy.health = 100;
+        {
+            id: 2,
+            x: window.innerWidth * 0.80,
+            y: window.innerHeight * 0.25,
+            health: 100,
+            speed: 1.5,
+            attackCooldown: 0,
+            emoji: "👺"
+        },
 
-    enemy.attackCooldown = 0;
+        {
+            id: 3,
+            x: window.innerWidth * 0.75,
+            y: window.innerHeight * 0.75,
+            health: 100,
+            speed: 1.0,
+            attackCooldown: 0,
+            emoji: "👿"
+        }
 
-
-    enemyElement.style.display =
-        "block";
+    ];
 
 
     updatePlayer();
 
-    updateEnemy();
-
     updateHUD();
 
-    updateEnemyHealth();
+}
+
+
+/* =========================
+   CREATE ENEMIES
+   ========================= */
+
+function createEnemies() {
+
+    enemiesContainer.innerHTML = "";
+
+
+    enemies.forEach(
+        function(enemy) {
+
+            const enemyElement =
+                document.createElement("div");
+
+
+            enemyElement.className =
+                "enemy";
+
+
+            enemyElement.id =
+                "enemy-" + enemy.id;
+
+
+            enemyElement.innerHTML = `
+
+                <div class="enemy-health-bar">
+
+                    <div
+                        class="enemy-health-fill"
+                        id="enemy-health-${enemy.id}">
+                    </div>
+
+                </div>
+
+                <div class="enemy-character">
+
+                    ${enemy.emoji}
+
+                </div>
+
+                <div class="enemy-name">
+
+                    ENEMY ${enemy.id}
+
+                </div>
+
+            `;
+
+
+            enemiesContainer.appendChild(
+                enemyElement
+            );
+
+
+            updateEnemyElement(
+                enemy
+            );
+
+        }
+    );
+
+}
+
+
+/* =========================
+   UPDATE PLAYER
+   ========================= */
+
+function updatePlayer() {
+
+    playerElement.style.left =
+        player.x + "px";
+
+    playerElement.style.top =
+        player.y + "px";
+
+}
+
+
+/* =========================
+   UPDATE ENEMY
+   ========================= */
+
+function updateEnemyElement(enemy) {
+
+    const element =
+        document.getElementById(
+            "enemy-" + enemy.id
+        );
+
+
+    if (!element) {
+
+        return;
+
+    }
+
+
+    element.style.left =
+        enemy.x + "px";
+
+    element.style.top =
+        enemy.y + "px";
 
 }
 
@@ -156,8 +298,6 @@ document.addEventListener(
             event.key.toLowerCase();
 
 
-        /* UP */
-
         if (
             key === "w" ||
             key === "arrowup"
@@ -168,8 +308,6 @@ document.addEventListener(
 
         }
 
-
-        /* DOWN */
 
         if (
             key === "s" ||
@@ -182,8 +320,6 @@ document.addEventListener(
         }
 
 
-        /* LEFT */
-
         if (
             key === "a" ||
             key === "arrowleft"
@@ -194,8 +330,6 @@ document.addEventListener(
 
         }
 
-
-        /* RIGHT */
 
         if (
             key === "d" ||
@@ -208,15 +342,13 @@ document.addEventListener(
         }
 
 
-        /* ATTACK */
-
         if (
             event.code === "Space"
         ) {
 
             event.preventDefault();
 
-            attackEnemy();
+            attackNearestEnemy();
 
         }
 
@@ -256,136 +388,91 @@ function keepPlayerInsideMap() {
 
 
 /* =========================
-   UPDATE PLAYER
-   ========================= */
-
-function updatePlayer() {
-
-    playerElement.style.left =
-        player.x + "px";
-
-    playerElement.style.top =
-        player.y + "px";
-
-}
-
-
-/* =========================
-   UPDATE ENEMY
-   ========================= */
-
-function updateEnemy() {
-
-    enemyElement.style.left =
-        enemy.x + "px";
-
-    enemyElement.style.top =
-        enemy.y + "px";
-
-}
-
-
-/* =========================
-   DISTANCE
-   ========================= */
-
-function getDistance() {
-
-    const dx =
-        player.x - enemy.x;
-
-    const dy =
-        player.y - enemy.y;
-
-    return Math.sqrt(
-        dx * dx +
-        dy * dy
-    );
-
-}
-
-
-/* =========================
    ENEMY AI
    ========================= */
 
-function enemyAI() {
+function updateEnemies() {
 
-    if (
-        enemy.health <= 0 ||
-        player.health <= 0
-    ) {
+    enemies.forEach(
+        function(enemy) {
 
-        return;
+            if (
+                enemy.health <= 0
+            ) {
 
-    }
+                return;
 
-
-    const dx =
-        player.x - enemy.x;
-
-    const dy =
-        player.y - enemy.y;
+            }
 
 
-    const distance =
-        Math.sqrt(
-            dx * dx +
-            dy * dy
-        );
+            const dx =
+                player.x - enemy.x;
+
+            const dy =
+                player.y - enemy.y;
 
 
-    /* =========================
-       CHASE PLAYER
-       ========================= */
-
-    if (
-        distance > enemy.attackRange
-    ) {
-
-        enemy.x +=
-            (dx / distance) *
-            enemy.speed;
-
-        enemy.y +=
-            (dy / distance) *
-            enemy.speed;
-
-    }
+            const distance =
+                Math.sqrt(
+                    dx * dx +
+                    dy * dy
+                );
 
 
-    /* =========================
-       ATTACK PLAYER
-       ========================= */
+            /* CHASE */
 
-    if (
-        distance <= enemy.attackRange
-    ) {
+            if (
+                distance > 75
+            ) {
 
-        if (
-            enemy.attackCooldown <= 0
-        ) {
+                enemy.x +=
+                    (dx / distance) *
+                    enemy.speed;
 
-            enemyAttack();
+                enemy.y +=
+                    (dy / distance) *
+                    enemy.speed;
 
-            enemy.attackCooldown =
-                60;
+            }
+
+
+            /* ATTACK */
+
+            if (
+                distance <= 75
+            ) {
+
+                if (
+                    enemy.attackCooldown <= 0
+                ) {
+
+                    enemyAttack(
+                        enemy
+                    );
+
+                    enemy.attackCooldown =
+                        60;
+
+                }
+
+            }
+
+
+            if (
+                enemy.attackCooldown > 0
+            ) {
+
+                enemy.attackCooldown--;
+
+            }
+
+
+            updateEnemyElement(
+                enemy
+            );
 
         }
-
-    }
-
-
-    if (
-        enemy.attackCooldown > 0
-    ) {
-
-        enemy.attackCooldown--;
-
-    }
-
-
-    updateEnemy();
+    );
 
 }
 
@@ -394,9 +481,9 @@ function enemyAI() {
    ENEMY ATTACK
    ========================= */
 
-function enemyAttack() {
+function enemyAttack(enemy) {
 
-    const damage = 10;
+    const damage = 5;
 
 
     player.health -=
@@ -415,22 +502,34 @@ function enemyAttack() {
     updateHUD();
 
 
-    /* Attack animation */
-
-    enemyCharacter.classList.remove(
-        "enemy-attacking"
-    );
-
-
-    void enemyCharacter.offsetWidth;
+    const element =
+        document.getElementById(
+            "enemy-" + enemy.id
+        );
 
 
-    enemyCharacter.classList.add(
-        "enemy-attacking"
-    );
+    if (element) {
+
+        const character =
+            element.querySelector(
+                ".enemy-character"
+            );
 
 
-    /* Player hit */
+        character.classList.remove(
+            "enemy-attacking"
+        );
+
+
+        void character.offsetWidth;
+
+
+        character.classList.add(
+            "enemy-attacking"
+        );
+
+    }
+
 
     playerElement.classList.remove(
         "player-hit"
@@ -445,11 +544,11 @@ function enemyAttack() {
     );
 
 
-    message.innerHTML =
-        "⚔️ ENEMY ATTACKED YOU!";
+    messageElement.innerHTML =
+        "⚔️ ENEMY " +
+        enemy.id +
+        " ATTACKED YOU!";
 
-
-    /* Game over */
 
     if (
         player.health <= 0
@@ -479,20 +578,98 @@ function updateHUD() {
     ).textContent =
         player.chakra;
 
+
+    const aliveEnemies =
+        enemies.filter(
+            function(enemy) {
+
+                return enemy.health > 0;
+
+            }
+        ).length;
+
+
+    document.getElementById(
+        "enemy-count"
+    ).textContent =
+        aliveEnemies;
+
 }
 
 
 /* =========================
-   ATTACK ENEMY
+   FIND NEAREST ENEMY
    ========================= */
 
-function attackEnemy() {
+function findNearestEnemy() {
 
-    if (
-        !gameRunning ||
-        enemy.health <= 0 ||
-        player.health <= 0
-    ) {
+    let nearest = null;
+
+    let nearestDistance =
+        Infinity;
+
+
+    enemies.forEach(
+        function(enemy) {
+
+            if (
+                enemy.health <= 0
+            ) {
+
+                return;
+
+            }
+
+
+            const dx =
+                enemy.x - player.x;
+
+            const dy =
+                enemy.y - player.y;
+
+
+            const distance =
+                Math.sqrt(
+                    dx * dx +
+                    dy * dy
+                );
+
+
+            if (
+                distance < nearestDistance
+            ) {
+
+                nearest =
+                    enemy;
+
+                nearestDistance =
+                    distance;
+
+            }
+
+        }
+    );
+
+
+    return nearest;
+
+}
+
+
+/* =========================
+   PLAYER ATTACK
+   ========================= */
+
+function attackNearestEnemy() {
+
+    const target =
+        findNearestEnemy();
+
+
+    if (!target) {
+
+        messageElement.innerHTML =
+            "🏆 ALL ENEMIES DEFEATED!";
 
         return;
 
@@ -500,10 +677,10 @@ function attackEnemy() {
 
 
     const dx =
-        enemy.x - player.x;
+        target.x - player.x;
 
     const dy =
-        enemy.y - player.y;
+        target.y - player.y;
 
 
     const distance =
@@ -514,24 +691,33 @@ function attackEnemy() {
 
 
     const attackRange =
-        400;
+        450;
 
-
-    /* Too far */
 
     if (
         distance > attackRange
     ) {
 
-        message.innerHTML =
-            "❌ Too far away! Move closer.";
+        messageElement.innerHTML =
+            "❌ Enemy is too far away!";
 
         return;
 
     }
 
 
-    /* Create kunai */
+    createKunai(
+        target
+    );
+
+}
+
+
+/* =========================
+   CREATE KUNAI
+   ========================= */
+
+function createKunai(target) {
 
     const kunai =
         document.createElement("div");
@@ -550,42 +736,52 @@ function attackEnemy() {
     ).appendChild(kunai);
 
 
-    let kunaiX =
+    let x =
         player.x;
 
-    let kunaiY =
+    let y =
         player.y;
 
 
-    const length =
+    const dx =
+        target.x - player.x;
+
+    const dy =
+        target.y - player.y;
+
+
+    const distance =
         Math.sqrt(
             dx * dx +
             dy * dy
         );
 
 
+    const speed = 15;
+
+
     const velocityX =
-        (dx / length) * 15;
+        (dx / distance) *
+        speed;
 
     const velocityY =
-        (dy / length) * 15;
+        (dy / distance) *
+        speed;
 
 
     kunai.style.left =
-        kunaiX + "px";
+        x + "px";
 
     kunai.style.top =
-        kunaiY + "px";
+        y + "px";
 
-
-    /* Projectile */
 
     const projectile =
         setInterval(
             function() {
 
                 if (
-                    enemy.health <= 0
+                    target.health <= 0
                 ) {
 
                     clearInterval(
@@ -599,27 +795,25 @@ function attackEnemy() {
                 }
 
 
-                kunaiX +=
+                x +=
                     velocityX;
 
-                kunaiY +=
+                y +=
                     velocityY;
 
 
                 kunai.style.left =
-                    kunaiX + "px";
+                    x + "px";
 
                 kunai.style.top =
-                    kunaiY + "px";
+                    y + "px";
 
-
-                /* Collision */
 
                 const hitX =
-                    enemy.x - kunaiX;
+                    target.x - x;
 
                 const hitY =
-                    enemy.y - kunaiY;
+                    target.y - y;
 
 
                 const hitDistance =
@@ -639,20 +833,19 @@ function attackEnemy() {
 
                     kunai.remove();
 
-                    damageEnemy();
+
+                    damageEnemy(
+                        target
+                    );
 
                 }
 
 
-                /* Outside screen */
-
                 if (
-                    kunaiX < 0 ||
-                    kunaiX >
-                    window.innerWidth ||
-                    kunaiY < 0 ||
-                    kunaiY >
-                    window.innerHeight
+                    x < 0 ||
+                    x > window.innerWidth ||
+                    y < 0 ||
+                    y > window.innerHeight
                 ) {
 
                     clearInterval(
@@ -674,7 +867,7 @@ function attackEnemy() {
    DAMAGE ENEMY
    ========================= */
 
-function damageEnemy() {
+function damageEnemy(enemy) {
 
     enemy.health -=
         20;
@@ -689,36 +882,48 @@ function damageEnemy() {
     }
 
 
-    updateEnemyHealth();
-
-
-    /* Hit effect */
-
-    enemyElement.classList.remove(
-        "enemy-hit"
+    updateEnemyHealth(
+        enemy
     );
 
 
-    void enemyElement.offsetWidth;
+    const element =
+        document.getElementById(
+            "enemy-" + enemy.id
+        );
 
 
-    enemyElement.classList.add(
-        "enemy-hit"
-    );
+    if (element) {
+
+        element.classList.remove(
+            "enemy-hit"
+        );
 
 
-    message.innerHTML =
-        "💥 HIT! Enemy HP: " +
+        void element.offsetWidth;
+
+
+        element.classList.add(
+            "enemy-hit"
+        );
+
+    }
+
+
+    messageElement.innerHTML =
+        "💥 HIT ENEMY " +
+        enemy.id +
+        "! HP: " +
         enemy.health;
 
-
-    /* Defeat */
 
     if (
         enemy.health <= 0
     ) {
 
-        enemyDefeated();
+        defeatEnemy(
+            enemy
+        );
 
     }
 
@@ -726,39 +931,115 @@ function damageEnemy() {
 
 
 /* =========================
-   ENEMY HEALTH
+   UPDATE ENEMY HEALTH
    ========================= */
 
-function updateEnemyHealth() {
+function updateEnemyHealth(enemy) {
 
-    const percentage =
+    const healthBar =
+        document.getElementById(
+            "enemy-health-" +
+            enemy.id
+        );
+
+
+    if (!healthBar) {
+
+        return;
+
+    }
+
+
+    healthBar.style.width =
         enemy.health + "%";
-
-
-    document.getElementById(
-        "enemy-health-fill"
-    ).style.width =
-        percentage;
 
 }
 
 
 /* =========================
-   ENEMY DEFEATED
+   DEFEAT ENEMY
    ========================= */
 
-function enemyDefeated() {
+function defeatEnemy(enemy) {
 
-    enemy.health = 0;
+    const element =
+        document.getElementById(
+            "enemy-" + enemy.id
+        );
 
 
-    enemyElement.style.display =
-        "none";
+    if (element) {
+
+        element.remove();
+
+    }
 
 
-    message.innerHTML =
-        "🔥 ENEMY DEFEATED!<br>" +
-        "Press R to fight again.";
+    updateHUD();
+
+
+    const remaining =
+        enemies.filter(
+            function(enemy) {
+
+                return enemy.health > 0;
+
+            }
+        ).length;
+
+
+    if (
+        remaining === 0
+    ) {
+
+        gameWon();
+
+    }
+    else {
+
+        messageElement.innerHTML =
+            "🔥 ENEMY " +
+            enemy.id +
+            " DEFEATED! " +
+            remaining +
+            " REMAINING.";
+
+    }
+
+}
+
+
+/* =========================
+   GAME WON
+   ========================= */
+
+function gameWon() {
+
+    gameRunning = false;
+
+
+    document.getElementById(
+        "game-over-title"
+    ).textContent =
+        "🏆 VICTORY!";
+
+
+    document.getElementById(
+        "game-over-title"
+    ).style.color =
+        "#ffd700";
+
+
+    document.getElementById(
+        "game-over-text"
+    ).textContent =
+        "You defeated all the enemies!";
+
+
+    document.getElementById(
+        "game-over"
+    ).style.display =
+        "block";
 
 }
 
@@ -773,87 +1054,33 @@ function playerDefeated() {
 
 
     document.getElementById(
+        "game-over-title"
+    ).textContent =
+        "💀 DEFEATED";
+
+
+    document.getElementById(
+        "game-over-title"
+    ).style.color =
+        "#ff3333";
+
+
+    document.getElementById(
+        "game-over-text"
+    ).textContent =
+        "The enemies defeated your ninja.";
+
+
+    document.getElementById(
         "game-over"
     ).style.display =
         "block";
 
-
-    message.innerHTML =
-        "💀 Your ninja has fallen.";
-
 }
 
 
 /* =========================
-   R KEY
-   ========================= */
-
-document.addEventListener(
-    "keydown",
-    function(event) {
-
-        if (
-            event.key.toLowerCase() === "r"
-        ) {
-
-            if (
-                document.getElementById(
-                    "game-over"
-                ).style.display === "block"
-            ) {
-
-                restartGame();
-
-            }
-            else {
-
-                resetEnemy();
-
-            }
-
-        }
-
-    }
-);
-
-
-/* =========================
-   RESET ENEMY
-   ========================= */
-
-function resetEnemy() {
-
-    enemy.health = 100;
-
-
-    enemy.x =
-        window.innerWidth * 0.75;
-
-    enemy.y =
-        window.innerHeight / 2;
-
-
-    enemy.attackCooldown = 0;
-
-
-    enemyElement.style.display =
-        "block";
-
-
-    updateEnemy();
-
-    updateEnemyHealth();
-
-
-    message.innerHTML =
-        "WASD / Arrow Keys — Move<br>" +
-        "SPACE — Attack";
-
-}
-
-
-/* =========================
-   RESTART GAME
+   RESTART
    ========================= */
 
 function restartGame() {
@@ -867,10 +1094,13 @@ function restartGame() {
     resetGame();
 
 
+    createEnemies();
+
+
     gameRunning = true;
 
 
-    message.innerHTML =
+    messageElement.innerHTML =
         "WASD / Arrow Keys — Move<br>" +
         "SPACE — Attack";
 
@@ -892,7 +1122,7 @@ function gameLoop() {
         gameRunning
     ) {
 
-        enemyAI();
+        updateEnemies();
 
         requestAnimationFrame(
             gameLoop
@@ -904,7 +1134,7 @@ function gameLoop() {
 
 
 /* =========================
-   WINDOW RESIZE
+   RESIZE
    ========================= */
 
 window.addEventListener(
