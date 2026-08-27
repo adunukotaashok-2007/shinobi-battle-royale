@@ -1,170 +1,115 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Shinobi Battle Royale</title>
-
+    <title>Shinobi Battle</title>
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-    <!-- MENU -->
+<div id="menu">
+    <h1>🥷 SHINOBI BATTLE</h1>
+    <p>Enter the Ninja Village</p>
 
-    <div id="menu">
+    <button id="startButton">
+        START GAME
+    </button>
+</div>
 
-        <h1>🥷 SHINOBI BATTLE ROYALE</h1>
 
-        <p>Enter the Ninja Village</p>
+<div id="game">
 
-        <button onclick="startGame()">
-            START GAME
-        </button>
-
+    <div id="hud">
+        ❤️ Health: <span id="health">100</span>
+        &nbsp;&nbsp;
+        👹 Enemies: <span id="enemyCount">3</span>
     </div>
 
 
-    <!-- GAME -->
+    <div id="village">
 
-    <div id="game">
+        <div class="building hall">
+            🏯
+        </div>
 
-        <!-- HUD -->
+        <div class="building house1">
+            🏠
+        </div>
 
-        <div id="hud">
+        <div class="building house2">
+            🏠
+        </div>
 
-            <div>
-                ❤️ PLAYER:
-                <span id="health">100</span>
-            </div>
+        <div class="tree tree1">
+            🌳
+        </div>
 
-            <div>
-                🌀 CHAKRA:
-                <span id="chakra">100</span>
-            </div>
-
-            <div>
-                👹 ENEMIES:
-                <span id="enemy-count">3</span>
-            </div>
-
+        <div class="tree tree2">
+            🌳
         </div>
 
 
-        <!-- VILLAGE -->
+        <!-- PLAYER -->
 
-        <div id="village">
-
-            <!-- VILLAGE HALL -->
-
-            <div class="building village-hall">
-                🏯
-                <span>Village Hall</span>
-            </div>
+        <div id="player">
+            🥷
+        </div>
 
 
-            <!-- HOUSES -->
+        <!-- ENEMIES -->
 
-            <div class="building house house1">
-                🏠
-            </div>
-
-            <div class="building house house2">
-                🏠
-            </div>
-
-            <div class="building house house3">
-                🏠
-            </div>
-
-            <div class="building house house4">
-                🏠
-            </div>
-
-
-            <!-- TRAINING GROUND -->
-
-            <div id="training-ground">
-
-                🎯
-
-                <span>
-                    Training Ground
-                </span>
-
-            </div>
-
-
-            <!-- RIVER -->
-
-            <div id="river"></div>
-
-
-            <!-- TREES -->
-
-            <div class="tree tree1">🌳</div>
-            <div class="tree tree2">🌳</div>
-            <div class="tree tree3">🌳</div>
-            <div class="tree tree4">🌳</div>
-            <div class="tree tree5">🌳</div>
-            <div class="tree tree6">🌳</div>
-
-
-            <!-- PLAYER -->
-
-            <div id="player">
-
-                <div id="player-character">
-                    🥷
+        <div id="enemy1" class="enemy">
+            <div class="enemyBar">
+                <div id="enemyHealth1"
+                     class="enemyHealth">
                 </div>
-
             </div>
 
+            👹
 
-            <!-- ENEMIES ARE CREATED BY JAVASCRIPT -->
-
-            <div id="enemies"></div>
-
+            <small>ENEMY 1</small>
         </div>
 
 
-        <!-- MESSAGE -->
+        <div id="enemy2" class="enemy">
+            <div class="enemyBar">
+                <div id="enemyHealth2"
+                     class="enemyHealth">
+                </div>
+            </div>
 
-        <div id="message">
+            👺
 
-            WASD / Arrow Keys — Move
-            <br>
-
-            SPACE — Attack
-
+            <small>ENEMY 2</small>
         </div>
 
 
-        <!-- GAME OVER -->
+        <div id="enemy3" class="enemy">
+            <div class="enemyBar">
+                <div id="enemyHealth3"
+                     class="enemyHealth">
+                </div>
+            </div>
 
-        <div id="game-over">
+            👿
 
-            <h1 id="game-over-title">
-                💀 DEFEATED
-            </h1>
-
-            <p id="game-over-text">
-                Your ninja has fallen.
-            </p>
-
-            <button onclick="restartGame()">
-                RESTART
-            </button>
-
+            <small>ENEMY 3</small>
         </div>
 
     </div>
 
 
-    <script src="game.js"></script>
+    <div id="message">
+        WASD / Arrow Keys = Move<br>
+        SPACE = Attack
+    </div>
+
+</div>
+
+
+<script src="game.js"></script>
 
 </body>
-
 </html>
