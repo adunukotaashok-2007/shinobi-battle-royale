@@ -11,12 +11,9 @@ body {
 }
 
 
-/* =========================
-   MENU
-   ========================= */
+/* MENU */
 
 #menu {
-
     height: 100vh;
 
     display: flex;
@@ -25,11 +22,10 @@ body {
     justify-content: center;
     align-items: center;
 
-    background:
-        linear-gradient(
-            #182848,
-            #4b6cb7
-        );
+    background: linear-gradient(
+        #182848,
+        #4b6cb7
+    );
 
     text-align: center;
 }
@@ -43,14 +39,12 @@ body {
 }
 
 button {
-
     padding: 15px 35px;
 
     border: none;
     border-radius: 10px;
 
     background: #ff7b00;
-
     color: white;
 
     font-size: 20px;
@@ -63,12 +57,9 @@ button:hover {
 }
 
 
-/* =========================
-   GAME
-   ========================= */
+/* GAME */
 
 #game {
-
     display: none;
 
     position: relative;
@@ -82,12 +73,9 @@ button:hover {
 }
 
 
-/* =========================
-   VILLAGE
-   ========================= */
+/* VILLAGE */
 
 #village {
-
     position: absolute;
 
     left: 0;
@@ -102,12 +90,9 @@ button:hover {
 }
 
 
-/* =========================
-   ROADS
-   ========================= */
+/* ROADS */
 
 #village::before {
-
     content: "";
 
     position: absolute;
@@ -124,7 +109,6 @@ button:hover {
 }
 
 #village::after {
-
     content: "";
 
     position: absolute;
@@ -141,12 +125,9 @@ button:hover {
 }
 
 
-/* =========================
-   HUD
-   ========================= */
+/* HUD */
 
 #hud {
-
     position: absolute;
 
     top: 15px;
@@ -162,12 +143,9 @@ button:hover {
 }
 
 
-/* =========================
-   BUILDINGS
-   ========================= */
+/* BUILDINGS */
 
 .building {
-
     position: absolute;
 
     display: flex;
@@ -191,7 +169,6 @@ button:hover {
 }
 
 .building span {
-
     position: absolute;
 
     bottom: -25px;
@@ -202,12 +179,9 @@ button:hover {
 }
 
 
-/* =========================
-   VILLAGE HALL
-   ========================= */
+/* VILLAGE HALL */
 
 .village-hall {
-
     width: 180px;
     height: 120px;
 
@@ -219,12 +193,9 @@ button:hover {
 }
 
 
-/* =========================
-   HOUSES
-   ========================= */
+/* HOUSES */
 
 .house {
-
     width: 100px;
     height: 75px;
 }
@@ -250,12 +221,9 @@ button:hover {
 }
 
 
-/* =========================
-   TRAINING GROUND
-   ========================= */
+/* TRAINING */
 
 #training-ground {
-
     position: absolute;
 
     left: 50%;
@@ -286,7 +254,6 @@ button:hover {
 }
 
 #training-ground span {
-
     position: absolute;
 
     bottom: -30px;
@@ -295,12 +262,9 @@ button:hover {
 }
 
 
-/* =========================
-   RIVER
-   ========================= */
+/* RIVER */
 
 #river {
-
     position: absolute;
 
     right: 0;
@@ -318,12 +282,9 @@ button:hover {
 }
 
 
-/* =========================
-   TREES
-   ========================= */
+/* TREES */
 
 .tree {
-
     position: absolute;
 
     font-size: 45px;
@@ -362,12 +323,9 @@ button:hover {
 }
 
 
-/* =========================
-   PLAYER
-   ========================= */
+/* PLAYER */
 
 #player {
-
     position: absolute;
 
     left: 50%;
@@ -384,12 +342,9 @@ button:hover {
 }
 
 
-/* =========================
-   ENEMY
-   ========================= */
+/* ENEMY */
 
 #enemy {
-
     position: absolute;
 
     left: 70%;
@@ -411,19 +366,15 @@ button:hover {
     z-index: 60;
 
     user-select: none;
-
-    visibility: visible;
 }
 
 
 /* ENEMY HEALTH */
 
 #enemy-health {
-
     position: absolute;
 
     top: -30px;
-
     left: 50%;
 
     transform:
@@ -447,12 +398,22 @@ button:hover {
 }
 
 
-/* =========================
-   MESSAGE
-   ========================= */
+/* KUNAI */
+
+.kunai {
+    position: absolute;
+
+    font-size: 28px;
+
+    z-index: 80;
+
+    pointer-events: none;
+}
+
+
+/* MESSAGE */
 
 #message {
-
     position: absolute;
 
     bottom: 15px;
@@ -471,28 +432,9 @@ button:hover {
 }
 
 
-/* =========================
-   KUNAI
-   ========================= */
-
-.kunai {
-
-    position: absolute;
-
-    font-size: 28px;
-
-    z-index: 80;
-
-    pointer-events: none;
-}
-
-
-/* =========================
-   ENEMY HIT EFFECT
-   ========================= */
+/* HIT EFFECT */
 
 .enemy-hit {
-
     animation:
         enemyHit 0.15s;
 }
@@ -515,5 +457,28 @@ button:hover {
         transform:
             translate(-50%, -50%)
             scale(1);
+    }
+}
+
+
+/* PLAYER DAMAGE */
+
+.player-hit {
+    animation:
+        playerHit 0.2s;
+}
+
+@keyframes playerHit {
+
+    0% {
+        filter: brightness(1);
+    }
+
+    50% {
+        filter: brightness(3);
+    }
+
+    100% {
+        filter: brightness(1);
     }
 }
