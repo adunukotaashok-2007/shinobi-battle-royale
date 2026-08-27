@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,68 +12,145 @@
 
 <body>
 
+    <!-- MAIN MENU -->
+
     <div id="menu">
+
         <h1>🥷 SHINOBI BATTLE ROYALE</h1>
 
         <p>Enter the Ninja Village</p>
 
         <button onclick="startGame()">START GAME</button>
+
     </div>
+
+
+    <!-- GAME -->
 
     <div id="game">
 
-    <!-- HUD -->
-    <div id="hud">
-        ❤️ Health: <span id="health">100</span>
-        &nbsp;&nbsp;
-        🌀 Chakra: <span id="chakra">100</span>
-    </div>
+        <!-- HUD -->
 
-    <!-- VILLAGE MAP -->
-    <div id="village">
+        <div id="hud">
 
-        <!-- Village Hall -->
-        <div class="building village-hall">
-            🏯
-            <span>Village Hall</span>
+            ❤️ Health:
+            <span id="health">100</span>
+
+            &nbsp;&nbsp;
+
+            🌀 Chakra:
+            <span id="chakra">100</span>
+
         </div>
 
-        <!-- Houses -->
-        <div class="building house house1">🏠</div>
-        <div class="building house house2">🏠</div>
-        <div class="building house house3">🏠</div>
-        <div class="building house house4">🏠</div>
 
-        <!-- Training Ground -->
-        <div id="training-ground">
-            🎯
-            <span>Training Ground</span>
+        <!-- VILLAGE -->
+
+        <div id="village">
+
+            <!-- Village Hall -->
+
+            <div class="building village-hall">
+
+                🏯
+
+                <span>Village Hall</span>
+
+            </div>
+
+
+            <!-- Houses -->
+
+            <div class="building house house1">
+                🏠
+            </div>
+
+            <div class="building house house2">
+                🏠
+            </div>
+
+            <div class="building house house3">
+                🏠
+            </div>
+
+            <div class="building house house4">
+                🏠
+            </div>
+
+
+            <!-- Training Ground -->
+
+            <div id="training-ground">
+
+                🎯
+
+                <span>Training Ground</span>
+
+            </div>
+
+
+            <!-- River -->
+
+            <div id="river"></div>
+
+
+            <!-- Trees -->
+
+            <div class="tree tree1">🌳</div>
+
+            <div class="tree tree2">🌳</div>
+
+            <div class="tree tree3">🌳</div>
+
+            <div class="tree tree4">🌳</div>
+
+            <div class="tree tree5">🌳</div>
+
+            <div class="tree tree6">🌳</div>
+
+
+            <!-- PLAYER -->
+
+            <div id="player">
+                🥷
+            </div>
+
+
+            <!-- ENEMY -->
+
+            <div id="enemy">
+
+                👹
+
+                <div id="enemy-health">
+
+                    ❤️
+                    <span id="enemy-health-value">
+                        100
+                    </span>
+
+                </div>
+
+            </div>
+
         </div>
 
-        <!-- River -->
-        <div id="river"></div>
 
-        <!-- Trees -->
-        <div class="tree tree1">🌳</div>
-        <div class="tree tree2">🌳</div>
-        <div class="tree tree3">🌳</div>
-        <div class="tree tree4">🌳</div>
-        <div class="tree tree5">🌳</div>
-        <div class="tree tree6">🌳</div>
+        <!-- MESSAGE -->
 
-        <!-- Player -->
-        <div id="player">🥷</div>
+        <div id="message">
+
+            WASD / Arrow Keys — Move
+            <br>
+            SPACE — Attack
+
+        </div>
 
     </div>
 
-    <!-- Instructions -->
-    <div id="message">
-        WASD / Arrow Keys — Move your ninja
-    </div>
-
-</div>
 
     <script src="game.js"></script>
 
 </body>
+
 </html>
