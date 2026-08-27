@@ -3,8 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Shinobi Battle Royale</title>
 
@@ -13,7 +12,9 @@
 
 <body>
 
-    <!-- MENU -->
+    <!-- =========================
+         MAIN MENU
+         ========================= -->
 
     <div id="menu">
 
@@ -28,7 +29,9 @@
     </div>
 
 
-    <!-- GAME -->
+    <!-- =========================
+         GAME
+         ========================= -->
 
     <div id="game">
 
@@ -36,13 +39,15 @@
 
         <div id="hud">
 
-            ❤️ Health:
-            <span id="health">100</span>
+            <div>
+                ❤️ PLAYER:
+                <span id="health">100</span>
+            </div>
 
-            &nbsp;&nbsp;
-
-            🌀 Chakra:
-            <span id="chakra">100</span>
+            <div>
+                🌀 CHAKRA:
+                <span id="chakra">100</span>
+            </div>
 
         </div>
 
@@ -111,28 +116,39 @@
             <div class="tree tree6">🌳</div>
 
 
-            <!-- ENEMY -->
+            <!-- =========================
+                 ENEMY
+                 ========================= -->
 
             <div id="enemy">
 
-                👹
+                <div id="enemy-health-bar">
 
-                <div id="enemy-health">
+                    <div id="enemy-health-fill"></div>
 
-                    ❤️
-                    <span id="enemy-health-value">
-                        100
-                    </span>
+                </div>
 
+                <div id="enemy-character">
+                    👹
+                </div>
+
+                <div id="enemy-name">
+                    ENEMY
                 </div>
 
             </div>
 
 
-            <!-- PLAYER -->
+            <!-- =========================
+                 PLAYER
+                 ========================= -->
 
             <div id="player">
-                🥷
+
+                <div id="player-character">
+                    🥷
+                </div>
+
             </div>
 
         </div>
@@ -145,7 +161,24 @@
             WASD / Arrow Keys — Move
             <br>
 
-            SPACE — Throw Kunai
+            SPACE — Attack
+
+        </div>
+
+
+        <!-- GAME OVER -->
+
+        <div id="game-over">
+
+            <h1>💀 DEFEATED</h1>
+
+            <p>
+                The enemy defeated your ninja.
+            </p>
+
+            <button onclick="restartGame()">
+                RESTART
+            </button>
 
         </div>
 
