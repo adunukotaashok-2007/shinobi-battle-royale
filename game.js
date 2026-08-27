@@ -1,19 +1,16 @@
 /* =========================
-   PLAYER
+   GAME VARIABLES
    ========================= */
 
+let gameStarted = false;
+
 let player = {
-
     x: window.innerWidth / 2,
-
     y: window.innerHeight / 2,
 
-    speed: 6,
+    speed: 7,
 
-    health: 100,
-
-    chakra: 100
-
+    health: 100
 };
 
 
@@ -22,59 +19,59 @@ let player = {
    ========================= */
 
 let enemies = [
-
     {
         id: 1,
-        x: window.innerWidth * 0.15,
-        y: window.innerHeight * 0.25,
+        x: 150,
+        y: 180,
         health: 100,
-        speed: 1.2,
-        attackCooldown: 0,
-        emoji: "👹"
+        speed: 1.2
     },
 
     {
         id: 2,
-        x: window.innerWidth * 0.80,
-        y: window.innerHeight * 0.25,
+        x: window.innerWidth - 200,
+        y: 180,
         health: 100,
-        speed: 1.5,
-        attackCooldown: 0,
-        emoji: "👺"
+        speed: 1.4
     },
 
     {
         id: 3,
-        x: window.innerWidth * 0.75,
-        y: window.innerHeight * 0.75,
+        x: window.innerWidth - 200,
+        y: window.innerHeight - 180,
         health: 100,
-        speed: 1.0,
-        attackCooldown: 0,
-        emoji: "👿"
+        speed: 1.0
     }
-
 ];
 
 
 /* =========================
-   GAME STATE
+   GET HTML ELEMENTS
    ========================= */
 
-let gameRunning = false;
+const menu =
+    document.getElementById("menu");
 
-
-/* =========================
-   ELEMENTS
-   ========================= */
+const game =
+    document.getElementById("game");
 
 const playerElement =
     document.getElementById("player");
 
-const enemiesContainer =
-    document.getElementById("enemies");
-
-const messageElement =
+const message =
     document.getElementById("message");
+
+
+/* =========================
+   START BUTTON
+   ========================= */
+
+document
+    .getElementById("startButton")
+    .addEventListener(
+        "click",
+        startGame
+    );
 
 
 /* =========================
@@ -83,40 +80,12 @@ const messageElement =
 
 function startGame() {
 
-    document.getElementById("menu").style.display =
-        "none";
+    menu.style.display = "none";
 
-    document.getElementById("game").style.display =
-        "block";
+    game.style.display = "block";
 
-    document.getElementById("game-over").style.display =
-        "none";
+    gameStarted = true;
 
-
-    resetGame();
-
-
-    gameRunning = true;
-
-
-    messageElement.innerHTML =
-        "WASD / Arrow Keys — Move<br>" +
-        "SPACE — Throw Kunai";
-
-
-    createEnemies();
-
-
-    requestAnimationFrame(gameLoop);
-
-}
-
-
-/* =========================
-   RESET GAME
-   ========================= */
-
-function resetGame() {
 
     player.x =
         window.innerWidth / 2;
@@ -126,156 +95,40 @@ function resetGame() {
 
     player.health = 100;
 
-    player.chakra = 100;
 
+    enemies[0].x = 150;
+    enemies[0].y = 180;
+    enemies[0].health = 100;
 
-    enemies = [
+    enemies[1].x =
+        window.innerWidth - 200;
 
-        {
-            id: 1,
-            x: window.innerWidth * 0.15,
-            y: window.innerHeight * 0.25,
-            health: 100,
-            speed: 1.2,
-            attackCooldown: 0,
-            emoji: "👹"
-        },
+    enemies[1].y = 180;
 
-        {
-            id: 2,
-            x: window.innerWidth * 0.80,
-            y: window.innerHeight * 0.25,
-            health: 100,
-            speed: 1.5,
-            attackCooldown: 0,
-            emoji: "👺"
-        },
+    enemies[1].health = 100;
 
-        {
-            id: 3,
-            x: window.innerWidth * 0.75,
-            y: window.innerHeight * 0.75,
-            health: 100,
-            speed: 1.0,
-            attackCooldown: 0,
-            emoji: "👿"
-        }
+    enemies[2].x =
+        window.innerWidth - 200;
 
-    ];
+    enemies[2].y =
+        window.innerHeight - 180;
+
+    enemies[2].health = 100;
 
 
     updatePlayer();
 
+    updateAllEnemies();
+
     updateHUD();
 
-}
+
+    message.innerHTML =
+        "WASD / Arrow Keys = Move<br>" +
+        "SPACE = Attack";
 
 
-/* =========================
-   CREATE ENEMIES
-   ========================= */
-
-function createEnemies() {
-
-    enemiesContainer.innerHTML = "";
-
-
-    enemies.forEach(
-        function(enemy) {
-
-            const enemyElement =
-                document.createElement("div");
-
-
-            enemyElement.className =
-                "enemy";
-
-
-            enemyElement.id =
-                "enemy-" + enemy.id;
-
-
-            enemyElement.innerHTML = `
-
-                <div class="enemy-health-bar">
-
-                    <div
-                        class="enemy-health-fill"
-                        id="enemy-health-${enemy.id}">
-                    </div>
-
-                </div>
-
-                <div class="enemy-character">
-
-                    ${enemy.emoji}
-
-                </div>
-
-                <div class="enemy-name">
-
-                    ENEMY ${enemy.id}
-
-                </div>
-
-            `;
-
-
-            enemiesContainer.appendChild(
-                enemyElement
-            );
-
-
-            updateEnemyElement(
-                enemy
-            );
-
-        }
-    );
-
-}
-
-
-/* =========================
-   UPDATE PLAYER
-   ========================= */
-
-function updatePlayer() {
-
-    playerElement.style.left =
-        player.x + "px";
-
-    playerElement.style.top =
-        player.y + "px";
-
-}
-
-
-/* =========================
-   UPDATE ENEMY
-   ========================= */
-
-function updateEnemyElement(enemy) {
-
-    const element =
-        document.getElementById(
-            "enemy-" + enemy.id
-        );
-
-
-    if (!element) {
-
-        return;
-
-    }
-
-
-    element.style.left =
-        enemy.x + "px";
-
-    element.style.top =
-        enemy.y + "px";
-
+    requestAnimationFrame(gameLoop);
 }
 
 
@@ -287,14 +140,12 @@ document.addEventListener(
     "keydown",
     function(event) {
 
-        if (!gameRunning) {
-
+        if (!gameStarted) {
             return;
-
         }
 
 
-        const key =
+        let key =
             event.key.toLowerCase();
 
 
@@ -348,12 +199,12 @@ document.addEventListener(
 
             event.preventDefault();
 
-            attackNearestEnemy();
+            attack();
 
         }
 
 
-        keepPlayerInsideMap();
+        keepPlayerInside();
 
         updatePlayer();
 
@@ -362,26 +213,68 @@ document.addEventListener(
 
 
 /* =========================
+   PLAYER POSITION
+   ========================= */
+
+function updatePlayer() {
+
+    playerElement.style.left =
+        player.x + "px";
+
+    playerElement.style.top =
+        player.y + "px";
+
+}
+
+
+/* =========================
    PLAYER LIMIT
    ========================= */
 
-function keepPlayerInsideMap() {
+function keepPlayerInside() {
 
     player.x = Math.max(
         40,
         Math.min(
-            window.innerWidth - 130,
+            window.innerWidth - 120,
             player.x
         )
     );
 
 
     player.y = Math.max(
-        90,
+        80,
         Math.min(
-            window.innerHeight - 60,
+            window.innerHeight - 40,
             player.y
         )
+    );
+
+}
+
+
+/* =========================
+   UPDATE ENEMIES
+   ========================= */
+
+function updateAllEnemies() {
+
+    enemies.forEach(
+        function(enemy) {
+
+            let element =
+                document.getElementById(
+                    "enemy" + enemy.id
+                );
+
+
+            element.style.left =
+                enemy.x + "px";
+
+            element.style.top =
+                enemy.y + "px";
+
+        }
     );
 
 }
@@ -391,7 +284,7 @@ function keepPlayerInsideMap() {
    ENEMY AI
    ========================= */
 
-function updateEnemies() {
+function moveEnemies() {
 
     enemies.forEach(
         function(enemy) {
@@ -405,14 +298,14 @@ function updateEnemies() {
             }
 
 
-            const dx =
+            let dx =
                 player.x - enemy.x;
 
-            const dy =
+            let dy =
                 player.y - enemy.y;
 
 
-            const distance =
+            let distance =
                 Math.sqrt(
                     dx * dx +
                     dy * dy
@@ -422,7 +315,7 @@ function updateEnemies() {
             /* CHASE */
 
             if (
-                distance > 75
+                distance > 70
             ) {
 
                 enemy.x +=
@@ -439,160 +332,206 @@ function updateEnemies() {
             /* ATTACK */
 
             if (
-                distance <= 75
+                distance <= 70
             ) {
 
+                player.health -=
+                    0.08;
+
                 if (
-                    enemy.attackCooldown <= 0
+                    player.health < 0
                 ) {
 
-                    enemyAttack(
-                        enemy
-                    );
-
-                    enemy.attackCooldown =
-                        60;
+                    player.health = 0;
 
                 }
 
-            }
-
-
-            if (
-                enemy.attackCooldown > 0
-            ) {
-
-                enemy.attackCooldown--;
+                updateHUD();
 
             }
-
-
-            updateEnemyElement(
-                enemy
-            );
 
         }
     );
 
-}
 
-
-/* =========================
-   ENEMY ATTACK
-   ========================= */
-
-function enemyAttack(enemy) {
-
-    const damage = 5;
-
-
-    player.health -=
-        damage;
-
-
-    if (
-        player.health < 0
-    ) {
-
-        player.health = 0;
-
-    }
-
-
-    updateHUD();
-
-
-    const element =
-        document.getElementById(
-            "enemy-" + enemy.id
-        );
-
-
-    if (element) {
-
-        const character =
-            element.querySelector(
-                ".enemy-character"
-            );
-
-
-        character.classList.remove(
-            "enemy-attacking"
-        );
-
-
-        void character.offsetWidth;
-
-
-        character.classList.add(
-            "enemy-attacking"
-        );
-
-    }
-
-
-    playerElement.classList.remove(
-        "player-hit"
-    );
-
-
-    void playerElement.offsetWidth;
-
-
-    playerElement.classList.add(
-        "player-hit"
-    );
-
-
-    messageElement.innerHTML =
-        "⚔️ ENEMY " +
-        enemy.id +
-        " ATTACKED YOU!";
-
-
-    if (
-        player.health <= 0
-    ) {
-
-        playerDefeated();
-
-    }
+    updateAllEnemies();
 
 }
 
 
 /* =========================
-   UPDATE HUD
+   PLAYER ATTACK
    ========================= */
 
-function updateHUD() {
+function attack() {
 
-    document.getElementById(
-        "health"
-    ).textContent =
-        player.health;
+    let target =
+        findNearestEnemy();
 
 
-    document.getElementById(
-        "chakra"
-    ).textContent =
-        player.chakra;
+    if (!target) {
+
+        message.innerHTML =
+            "🏆 ALL ENEMIES DEFEATED!";
+
+        return;
+
+    }
 
 
-    const aliveEnemies =
-        enemies.filter(
-            function(enemy) {
+    let dx =
+        target.x - player.x;
 
-                return enemy.health > 0;
-
-            }
-        ).length;
+    let dy =
+        target.y - player.y;
 
 
-    document.getElementById(
-        "enemy-count"
-    ).textContent =
-        aliveEnemies;
+    let distance =
+        Math.sqrt(
+            dx * dx +
+            dy * dy
+        );
+
+
+    if (
+        distance > 450
+    ) {
+
+        message.innerHTML =
+            "❌ Enemy is too far away!";
+
+        return;
+
+    }
+
+
+    let kunai =
+        document.createElement(
+            "div"
+        );
+
+
+    kunai.className =
+        "kunai";
+
+    kunai.textContent =
+        "🗡️";
+
+
+    document
+        .getElementById("village")
+        .appendChild(kunai);
+
+
+    let x =
+        player.x;
+
+    let y =
+        player.y;
+
+
+    let speed = 15;
+
+
+    let vx =
+        (dx / distance) *
+        speed;
+
+    let vy =
+        (dy / distance) *
+        speed;
+
+
+    kunai.style.left =
+        x + "px";
+
+    kunai.style.top =
+        y + "px";
+
+
+    let timer =
+        setInterval(
+            function() {
+
+                x += vx;
+                y += vy;
+
+
+                kunai.style.left =
+                    x + "px";
+
+                kunai.style.top =
+                    y + "px";
+
+
+                let hitX =
+                    target.x - x;
+
+                let hitY =
+                    target.y - y;
+
+
+                let hitDistance =
+                    Math.sqrt(
+                        hitX * hitX +
+                        hitY * hitY
+                    );
+
+
+                if (
+                    hitDistance < 50
+                ) {
+
+                    clearInterval(timer);
+
+                    kunai.remove();
+
+                    target.health -= 25;
+
+
+                    if (
+                        target.health < 0
+                    ) {
+
+                        target.health = 0;
+
+                    }
+
+
+                    updateEnemyHealth(
+                        target
+                    );
+
+
+                    if (
+                        target.health <= 0
+                    ) {
+
+                        defeatEnemy(
+                            target
+                        );
+
+                    }
+
+                }
+
+
+                if (
+                    x < 0 ||
+                    x > window.innerWidth ||
+                    y < 0 ||
+                    y > window.innerHeight
+                ) {
+
+                    clearInterval(timer);
+
+                    kunai.remove();
+
+                }
+
+            },
+            20
+        );
 
 }
 
@@ -621,14 +560,14 @@ function findNearestEnemy() {
             }
 
 
-            const dx =
+            let dx =
                 enemy.x - player.x;
 
-            const dy =
+            let dy =
                 enemy.y - player.y;
 
 
-            const distance =
+            let distance =
                 Math.sqrt(
                     dx * dx +
                     dy * dy
@@ -639,11 +578,11 @@ function findNearestEnemy() {
                 distance < nearestDistance
             ) {
 
-                nearest =
-                    enemy;
-
                 nearestDistance =
                     distance;
+
+                nearest =
+                    enemy;
 
             }
 
@@ -657,300 +596,19 @@ function findNearestEnemy() {
 
 
 /* =========================
-   PLAYER ATTACK
-   ========================= */
-
-function attackNearestEnemy() {
-
-    const target =
-        findNearestEnemy();
-
-
-    if (!target) {
-
-        messageElement.innerHTML =
-            "🏆 ALL ENEMIES DEFEATED!";
-
-        return;
-
-    }
-
-
-    const dx =
-        target.x - player.x;
-
-    const dy =
-        target.y - player.y;
-
-
-    const distance =
-        Math.sqrt(
-            dx * dx +
-            dy * dy
-        );
-
-
-    const attackRange =
-        450;
-
-
-    if (
-        distance > attackRange
-    ) {
-
-        messageElement.innerHTML =
-            "❌ Enemy is too far away!";
-
-        return;
-
-    }
-
-
-    createKunai(
-        target
-    );
-
-}
-
-
-/* =========================
-   CREATE KUNAI
-   ========================= */
-
-function createKunai(target) {
-
-    const kunai =
-        document.createElement("div");
-
-
-    kunai.className =
-        "kunai";
-
-
-    kunai.textContent =
-        "🗡️";
-
-
-    document.getElementById(
-        "village"
-    ).appendChild(kunai);
-
-
-    let x =
-        player.x;
-
-    let y =
-        player.y;
-
-
-    const dx =
-        target.x - player.x;
-
-    const dy =
-        target.y - player.y;
-
-
-    const distance =
-        Math.sqrt(
-            dx * dx +
-            dy * dy
-        );
-
-
-    const speed = 15;
-
-
-    const velocityX =
-        (dx / distance) *
-        speed;
-
-    const velocityY =
-        (dy / distance) *
-        speed;
-
-
-    kunai.style.left =
-        x + "px";
-
-    kunai.style.top =
-        y + "px";
-
-
-    const projectile =
-        setInterval(
-            function() {
-
-                if (
-                    target.health <= 0
-                ) {
-
-                    clearInterval(
-                        projectile
-                    );
-
-                    kunai.remove();
-
-                    return;
-
-                }
-
-
-                x +=
-                    velocityX;
-
-                y +=
-                    velocityY;
-
-
-                kunai.style.left =
-                    x + "px";
-
-                kunai.style.top =
-                    y + "px";
-
-
-                const hitX =
-                    target.x - x;
-
-                const hitY =
-                    target.y - y;
-
-
-                const hitDistance =
-                    Math.sqrt(
-                        hitX * hitX +
-                        hitY * hitY
-                    );
-
-
-                if (
-                    hitDistance < 50
-                ) {
-
-                    clearInterval(
-                        projectile
-                    );
-
-                    kunai.remove();
-
-
-                    damageEnemy(
-                        target
-                    );
-
-                }
-
-
-                if (
-                    x < 0 ||
-                    x > window.innerWidth ||
-                    y < 0 ||
-                    y > window.innerHeight
-                ) {
-
-                    clearInterval(
-                        projectile
-                    );
-
-                    kunai.remove();
-
-                }
-
-            },
-            20
-        );
-
-}
-
-
-/* =========================
-   DAMAGE ENEMY
-   ========================= */
-
-function damageEnemy(enemy) {
-
-    enemy.health -=
-        20;
-
-
-    if (
-        enemy.health < 0
-    ) {
-
-        enemy.health = 0;
-
-    }
-
-
-    updateEnemyHealth(
-        enemy
-    );
-
-
-    const element =
-        document.getElementById(
-            "enemy-" + enemy.id
-        );
-
-
-    if (element) {
-
-        element.classList.remove(
-            "enemy-hit"
-        );
-
-
-        void element.offsetWidth;
-
-
-        element.classList.add(
-            "enemy-hit"
-        );
-
-    }
-
-
-    messageElement.innerHTML =
-        "💥 HIT ENEMY " +
-        enemy.id +
-        "! HP: " +
-        enemy.health;
-
-
-    if (
-        enemy.health <= 0
-    ) {
-
-        defeatEnemy(
-            enemy
-        );
-
-    }
-
-}
-
-
-/* =========================
-   UPDATE ENEMY HEALTH
+   ENEMY HEALTH
    ========================= */
 
 function updateEnemyHealth(enemy) {
 
-    const healthBar =
+    let health =
         document.getElementById(
-            "enemy-health-" +
+            "enemyHealth" +
             enemy.id
         );
 
 
-    if (!healthBar) {
-
-        return;
-
-    }
-
-
-    healthBar.style.width =
+    health.style.width =
         enemy.health + "%";
 
 }
@@ -962,23 +620,21 @@ function updateEnemyHealth(enemy) {
 
 function defeatEnemy(enemy) {
 
-    const element =
+    let element =
         document.getElementById(
-            "enemy-" + enemy.id
+            "enemy" +
+            enemy.id
         );
 
 
-    if (element) {
-
-        element.remove();
-
-    }
+    element.style.display =
+        "none";
 
 
     updateHUD();
 
 
-    const remaining =
+    let remaining =
         enemies.filter(
             function(enemy) {
 
@@ -988,21 +644,23 @@ function defeatEnemy(enemy) {
         ).length;
 
 
+    message.innerHTML =
+        "🔥 Enemy " +
+        enemy.id +
+        " defeated! " +
+        remaining +
+        " remaining.";
+
+
     if (
         remaining === 0
     ) {
 
-        gameWon();
+        gameStarted = false;
 
-    }
-    else {
 
-        messageElement.innerHTML =
-            "🔥 ENEMY " +
-            enemy.id +
-            " DEFEATED! " +
-            remaining +
-            " REMAINING.";
+        message.innerHTML =
+            "🏆 YOU WIN! ALL ENEMIES DEFEATED!";
 
     }
 
@@ -1010,104 +668,33 @@ function defeatEnemy(enemy) {
 
 
 /* =========================
-   GAME WON
+   HUD
    ========================= */
 
-function gameWon() {
-
-    gameRunning = false;
-
+function updateHUD() {
 
     document.getElementById(
-        "game-over-title"
+        "health"
     ).textContent =
-        "🏆 VICTORY!";
+        Math.ceil(
+            player.health
+        );
+
+
+    let remaining =
+        enemies.filter(
+            function(enemy) {
+
+                return enemy.health > 0;
+
+            }
+        ).length;
 
 
     document.getElementById(
-        "game-over-title"
-    ).style.color =
-        "#ffd700";
-
-
-    document.getElementById(
-        "game-over-text"
+        "enemyCount"
     ).textContent =
-        "You defeated all the enemies!";
-
-
-    document.getElementById(
-        "game-over"
-    ).style.display =
-        "block";
-
-}
-
-
-/* =========================
-   PLAYER DEFEATED
-   ========================= */
-
-function playerDefeated() {
-
-    gameRunning = false;
-
-
-    document.getElementById(
-        "game-over-title"
-    ).textContent =
-        "💀 DEFEATED";
-
-
-    document.getElementById(
-        "game-over-title"
-    ).style.color =
-        "#ff3333";
-
-
-    document.getElementById(
-        "game-over-text"
-    ).textContent =
-        "The enemies defeated your ninja.";
-
-
-    document.getElementById(
-        "game-over"
-    ).style.display =
-        "block";
-
-}
-
-
-/* =========================
-   RESTART
-   ========================= */
-
-function restartGame() {
-
-    document.getElementById(
-        "game-over"
-    ).style.display =
-        "none";
-
-
-    resetGame();
-
-
-    createEnemies();
-
-
-    gameRunning = true;
-
-
-    messageElement.innerHTML =
-        "WASD / Arrow Keys — Move<br>" +
-        "SPACE — Attack";
-
-
-    requestAnimationFrame(
-        gameLoop
-    );
+        remaining;
 
 }
 
@@ -1118,41 +705,32 @@ function restartGame() {
 
 function gameLoop() {
 
+    if (!gameStarted) {
+        return;
+    }
+
+
+    moveEnemies();
+
+
     if (
-        gameRunning
+        player.health <= 0
     ) {
 
-        updateEnemies();
+        gameStarted = false;
 
-        requestAnimationFrame(
-            gameLoop
-        );
+
+        message.innerHTML =
+            "💀 YOU WERE DEFEATED! " +
+            "Refresh the page to restart.";
+
+        return;
 
     }
+
+
+    requestAnimationFrame(
+        gameLoop
+    );
 
 }
-
-
-/* =========================
-   RESIZE
-   ========================= */
-
-window.addEventListener(
-    "resize",
-    function() {
-
-        if (
-            !gameRunning
-        ) {
-
-            return;
-
-        }
-
-
-        keepPlayerInsideMap();
-
-        updatePlayer();
-
-    }
-);
