@@ -4,19 +4,15 @@
 
 body {
     margin: 0;
-
     font-family: Arial, sans-serif;
-
     background: #111;
-
     color: white;
-
     overflow: hidden;
 }
 
 
 /* =========================
-   MAIN MENU
+   MENU
    ========================= */
 
 #menu {
@@ -24,11 +20,9 @@ body {
     height: 100vh;
 
     display: flex;
-
     flex-direction: column;
 
     justify-content: center;
-
     align-items: center;
 
     background:
@@ -41,28 +35,18 @@ body {
 }
 
 #menu h1 {
-
     font-size: 38px;
-
-    margin-bottom: 10px;
 }
 
 #menu p {
-
     font-size: 20px;
-
-    margin-bottom: 25px;
 }
-
-
-/* BUTTON */
 
 button {
 
     padding: 15px 35px;
 
     border: none;
-
     border-radius: 10px;
 
     background: #ff7b00;
@@ -75,9 +59,7 @@ button {
 }
 
 button:hover {
-
     background: #ff9900;
-
 }
 
 
@@ -92,7 +74,6 @@ button:hover {
     position: relative;
 
     width: 100vw;
-
     height: 100vh;
 
     overflow: hidden;
@@ -109,13 +90,15 @@ button:hover {
 
     position: absolute;
 
-    width: 100%;
+    left: 0;
+    top: 0;
 
+    width: 100%;
     height: 100%;
 
     overflow: hidden;
 
-    background-color: #69a84f;
+    background: #69a84f;
 }
 
 
@@ -130,18 +113,15 @@ button:hover {
     position: absolute;
 
     left: 0;
-
     top: 45%;
 
     width: 100%;
-
     height: 100px;
 
     background: #b98b5c;
 
     z-index: 1;
 }
-
 
 #village::after {
 
@@ -150,11 +130,9 @@ button:hover {
     position: absolute;
 
     left: 45%;
-
     top: 0;
 
     width: 100px;
-
     height: 100%;
 
     background: #b98b5c;
@@ -172,17 +150,13 @@ button:hover {
     position: absolute;
 
     top: 15px;
-
     left: 15px;
 
     padding: 12px 18px;
 
-    background:
-        rgba(0, 0, 0, 0.75);
+    background: rgba(0, 0, 0, 0.8);
 
     border-radius: 10px;
-
-    color: white;
 
     z-index: 100;
 }
@@ -199,7 +173,6 @@ button:hover {
     display: flex;
 
     justify-content: center;
-
     align-items: center;
 
     background: #c77b45;
@@ -217,14 +190,11 @@ button:hover {
     z-index: 10;
 }
 
-
 .building span {
 
     position: absolute;
 
     bottom: -25px;
-
-    color: white;
 
     font-size: 13px;
 
@@ -239,11 +209,9 @@ button:hover {
 .village-hall {
 
     width: 180px;
-
     height: 120px;
 
     left: 50%;
-
     top: 12%;
 
     transform:
@@ -258,39 +226,26 @@ button:hover {
 .house {
 
     width: 100px;
-
     height: 75px;
 }
 
-
 .house1 {
-
     left: 10%;
-
     top: 20%;
 }
-
 
 .house2 {
-
     right: 12%;
-
     top: 20%;
 }
 
-
 .house3 {
-
     left: 10%;
-
     bottom: 18%;
 }
 
-
 .house4 {
-
     right: 12%;
-
     bottom: 18%;
 }
 
@@ -304,14 +259,12 @@ button:hover {
     position: absolute;
 
     left: 50%;
-
     bottom: 10%;
 
     transform:
         translateX(-50%);
 
     width: 220px;
-
     height: 120px;
 
     border:
@@ -325,7 +278,6 @@ button:hover {
     display: flex;
 
     justify-content: center;
-
     align-items: center;
 
     font-size: 45px;
@@ -333,14 +285,11 @@ button:hover {
     z-index: 5;
 }
 
-
 #training-ground span {
 
     position: absolute;
 
     bottom: -30px;
-
-    color: white;
 
     font-size: 14px;
 }
@@ -355,11 +304,9 @@ button:hover {
     position: absolute;
 
     right: 0;
-
     top: 0;
 
     width: 80px;
-
     height: 100%;
 
     background: #3194d0;
@@ -384,51 +331,33 @@ button:hover {
     z-index: 20;
 }
 
-
 .tree1 {
-
     left: 3%;
-
     top: 5%;
 }
-
 
 .tree2 {
-
     left: 3%;
-
     bottom: 5%;
 }
 
-
 .tree3 {
-
     right: 15%;
-
     top: 5%;
 }
 
-
 .tree4 {
-
     right: 15%;
-
     bottom: 5%;
 }
 
-
 .tree5 {
-
     left: 30%;
-
     top: 4%;
 }
 
-
 .tree6 {
-
     left: 30%;
-
     bottom: 4%;
 }
 
@@ -442,7 +371,6 @@ button:hover {
     position: absolute;
 
     left: 50%;
-
     top: 50%;
 
     font-size: 50px;
@@ -450,13 +378,9 @@ button:hover {
     transform:
         translate(-50%, -50%);
 
-    z-index: 50;
+    z-index: 60;
 
     user-select: none;
-
-    transition:
-        left 0.05s,
-        top 0.05s;
 }
 
 
@@ -469,20 +393,26 @@ button:hover {
     position: absolute;
 
     left: 70%;
-
     top: 50%;
+
+    width: 70px;
+    height: 70px;
+
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
 
     font-size: 50px;
 
     transform:
         translate(-50%, -50%);
 
-    z-index: 40;
+    z-index: 60;
 
     user-select: none;
 
-    transition:
-        transform 0.1s;
+    visibility: visible;
 }
 
 
@@ -492,66 +422,28 @@ button:hover {
 
     position: absolute;
 
-    top: -25px;
+    top: -30px;
 
     left: 50%;
 
     transform:
         translateX(-50%);
 
-    width: 90px;
+    width: 80px;
 
     padding: 4px;
 
-    background:
-        rgba(0, 0, 0, 0.8);
+    background: #111;
 
-    border-radius: 6px;
+    color: white;
+
+    border-radius: 5px;
 
     text-align: center;
 
     font-size: 12px;
 
     white-space: nowrap;
-}
-
-
-/* =========================
-   ATTACK EFFECT
-   ========================= */
-
-.attack-effect {
-
-    animation:
-        attackAnimation 0.2s;
-}
-
-
-@keyframes attackAnimation {
-
-    0% {
-
-        transform:
-            translate(-50%, -50%)
-            scale(1);
-
-    }
-
-    50% {
-
-        transform:
-            translate(-50%, -50%)
-            scale(1.4);
-
-    }
-
-    100% {
-
-        transform:
-            translate(-50%, -50%)
-            scale(1);
-
-    }
 }
 
 
@@ -573,7 +465,55 @@ button:hover {
 
     font-size: 16px;
 
-    z-index: 100;
-
     line-height: 1.6;
+
+    z-index: 100;
+}
+
+
+/* =========================
+   KUNAI
+   ========================= */
+
+.kunai {
+
+    position: absolute;
+
+    font-size: 28px;
+
+    z-index: 80;
+
+    pointer-events: none;
+}
+
+
+/* =========================
+   ENEMY HIT EFFECT
+   ========================= */
+
+.enemy-hit {
+
+    animation:
+        enemyHit 0.15s;
+}
+
+@keyframes enemyHit {
+
+    0% {
+        transform:
+            translate(-50%, -50%)
+            scale(1);
+    }
+
+    50% {
+        transform:
+            translate(-50%, -50%)
+            scale(1.4);
+    }
+
+    100% {
+        transform:
+            translate(-50%, -50%)
+            scale(1);
+    }
 }
