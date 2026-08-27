@@ -10,13 +10,20 @@ body {
     overflow: hidden;
 }
 
+/* =========================
+   MAIN MENU
+   ========================= */
+
 #menu {
     height: 100vh;
+
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+
     background: linear-gradient(#182848, #4b6cb7);
+
     text-align: center;
 }
 
@@ -30,11 +37,15 @@ body {
 
 button {
     padding: 15px 35px;
+
     border: none;
     border-radius: 10px;
+
     background: #ff7b00;
     color: white;
+
     font-size: 20px;
+
     cursor: pointer;
 }
 
@@ -42,45 +53,311 @@ button:hover {
     background: #ff9900;
 }
 
+/* =========================
+   GAME
+   ========================= */
+
 #game {
     display: none;
+
     position: relative;
+
     width: 100vw;
     height: 100vh;
 
-    background:
-        linear-gradient(
-            rgba(50, 120, 50, 0.5),
-            rgba(30, 90, 30, 0.5)
-        );
+    overflow: hidden;
 
-    background-color: #356b35;
+    background: #69a84f;
 }
+
+/* =========================
+   VILLAGE
+   ========================= */
+
+#village {
+    position: absolute;
+
+    width: 100%;
+    height: 100%;
+
+    overflow: hidden;
+
+    background-color: #69a84f;
+}
+
+/* =========================
+   ROADS
+   ========================= */
+
+#village::before {
+    content: "";
+
+    position: absolute;
+
+    left: 0;
+    top: 45%;
+
+    width: 100%;
+    height: 100px;
+
+    background: #b98b5c;
+
+    z-index: 1;
+}
+
+#village::after {
+    content: "";
+
+    position: absolute;
+
+    left: 45%;
+    top: 0;
+
+    width: 100px;
+    height: 100%;
+
+    background: #b98b5c;
+
+    z-index: 1;
+}
+
+/* =========================
+   HUD
+   ========================= */
 
 #hud {
     position: absolute;
+
     top: 15px;
     left: 15px;
+
     padding: 12px 18px;
-    background: rgba(0, 0, 0, 0.7);
+
+    background: rgba(0, 0, 0, 0.75);
+
     border-radius: 10px;
+
+    color: white;
+
+    z-index: 100;
+}
+
+/* =========================
+   BUILDINGS
+   ========================= */
+
+.building {
+    position: absolute;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background: #c77b45;
+
+    border: 5px solid #703d20;
+
+    border-radius: 12px;
+
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.35);
+
+    font-size: 45px;
+
     z-index: 10;
 }
 
+.building span {
+    position: absolute;
+
+    bottom: -25px;
+
+    color: white;
+
+    font-size: 13px;
+
+    white-space: nowrap;
+}
+
+/* =========================
+   VILLAGE HALL
+   ========================= */
+
+.village-hall {
+    width: 180px;
+    height: 120px;
+
+    left: 50%;
+    top: 12%;
+
+    transform: translateX(-50%);
+}
+
+/* =========================
+   HOUSES
+   ========================= */
+
+.house {
+    width: 100px;
+    height: 75px;
+}
+
+.house1 {
+    left: 10%;
+    top: 20%;
+}
+
+.house2 {
+    right: 12%;
+    top: 20%;
+}
+
+.house3 {
+    left: 10%;
+    bottom: 18%;
+}
+
+.house4 {
+    right: 12%;
+    bottom: 18%;
+}
+
+/* =========================
+   TRAINING GROUND
+   ========================= */
+
+#training-ground {
+    position: absolute;
+
+    left: 50%;
+    bottom: 10%;
+
+    transform: translateX(-50%);
+
+    width: 220px;
+    height: 120px;
+
+    border: 6px dashed #d8c47a;
+
+    border-radius: 50%;
+
+    background: rgba(80, 70, 40, 0.3);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    font-size: 45px;
+
+    z-index: 5;
+}
+
+#training-ground span {
+    position: absolute;
+
+    bottom: -30px;
+
+    color: white;
+
+    font-size: 14px;
+}
+
+/* =========================
+   RIVER
+   ========================= */
+
+#river {
+    position: absolute;
+
+    right: 0;
+    top: 0;
+
+    width: 80px;
+    height: 100%;
+
+    background: #3194d0;
+
+    border-left: 5px solid #2475a8;
+
+    z-index: 3;
+}
+
+/* =========================
+   TREES
+   ========================= */
+
+.tree {
+    position: absolute;
+
+    font-size: 45px;
+
+    z-index: 20;
+}
+
+.tree1 {
+    left: 3%;
+    top: 5%;
+}
+
+.tree2 {
+    left: 3%;
+    bottom: 5%;
+}
+
+.tree3 {
+    right: 15%;
+    top: 5%;
+}
+
+.tree4 {
+    right: 15%;
+    bottom: 5%;
+}
+
+.tree5 {
+    left: 30%;
+    top: 4%;
+}
+
+.tree6 {
+    left: 30%;
+    bottom: 4%;
+}
+
+/* =========================
+   PLAYER
+   ========================= */
+
 #player {
     position: absolute;
+
     left: 50%;
     top: 50%;
 
     font-size: 50px;
 
     transform: translate(-50%, -50%);
+
+    z-index: 50;
+
+    user-select: none;
 }
+
+/* =========================
+   MESSAGE
+   ========================= */
 
 #message {
     position: absolute;
-    bottom: 20px;
+
+    bottom: 15px;
+
     width: 100%;
+
     text-align: center;
-    font-size: 18px;
+
+    color: white;
+
+    font-size: 16px;
+
+    z-index: 100;
 }
